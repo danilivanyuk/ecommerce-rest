@@ -46,14 +46,14 @@ GENDER_CHOICES = (
 
 SEASON_CHOICES = (
     ('summer', 'Summer'),
-    ('autumn ', 'Autumn'),
-    ('winter ', 'Winter'),
-    ('spring  ', 'Spring'),
+    ('autumn', 'Autumn'),
+    ('winter', 'Winter'),
+    ('spring', 'Spring'),
 )
 
 
 class Category(models.Model):
-    name = models.CharField(
+    title = models.CharField(
         max_length=100, verbose_name="Category Title", db_index=True)
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Created: ")
@@ -64,7 +64,7 @@ class Category(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['-name']
+        ordering = ['-title']
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
 
@@ -81,7 +81,7 @@ class SubCategory(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['-name']
+        ordering = ['-title']
         verbose_name = "Subcategory"
         verbose_name_plural = "Subcategories"
 
