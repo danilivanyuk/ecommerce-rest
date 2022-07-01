@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"webpack --mode development --watch ./frontend/src/index.js --output-path ./static/frontend\" \"tailwindcss -i ./frontend/src/components/static/input.css -o ./src/components/static/main.css --watch\" ",
+    "dev": "concurrently \"webpack --mode development --watch ./frontend/src/index.js --output-path ./static/frontend\" \"tailwindcss -i ./frontend/src/components/static/input.css -o ./frontend/src/components/static/main.css --watch\" ",
     "build": "webpack --mode production --entry ./frontend/src/index.js --output-path ./static/frontend"
   },
   "keywords": [],
