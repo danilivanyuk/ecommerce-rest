@@ -9,7 +9,7 @@ import "./static/main.css";
 
 export default function App() {
   return (
-    <div className="container mx-auto xl:px-6">
+    <div className="mx-auto">
       <Router basename="/">
         <Fragment>
           <Navbar />
