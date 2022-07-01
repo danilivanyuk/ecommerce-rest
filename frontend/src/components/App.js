@@ -1,9 +1,10 @@
 import React, { Fragment } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import Homepage from "./Homepage/Homepage";
 import Navbar from "./Navbar/Navbar";
-
+import Profile from "./Profile/Profile";
+import Cart from "./Cart/Cart";
 import "./static/main.css";
 
 export default function App() {
@@ -12,18 +13,13 @@ export default function App() {
       <Router basename="/">
         <Fragment>
           <Navbar />
-          <Switch>
-            <Route path="/">
-              <Homepage />
-            </Route>
-            {/* <Route path="/profile">
-                <Profile/>
-              </Route> */}
-          </Switch>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
         </Fragment>
       </Router>
-
-      <Homepage />
     </div>
   );
 }
