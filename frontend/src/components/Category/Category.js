@@ -187,7 +187,7 @@ export default function Category() {
         </Transition.Root>
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative z-10 flex items-baseline justify-between pt-24 pb-6 border-b border-gray-200">
+          <div className="relative flex items-baseline justify-between pt-24 pb-6 border-b border-gray-200">
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
               Category Name
             </h1>
@@ -213,7 +213,7 @@ export default function Category() {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
                     <div className="py-1">
                       {sortOptions.map((option) => (
                         <Menu.Item key={option.name}>
