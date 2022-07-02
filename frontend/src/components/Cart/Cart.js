@@ -4,7 +4,7 @@ import Checkout from "./Checkout";
 import OrderSummary from "./OrderSummary";
 
 export default function Cart() {
-  const [checkout, setCheckout] = useState(true);
+  const [checkout, setCheckout] = useState(false);
   return (
     <div>
       <h1 className="max-w-2xl mx-auto mt-6  px-4 sm:px-6 lg:max-w-7xl  text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">

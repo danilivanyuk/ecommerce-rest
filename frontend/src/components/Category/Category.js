@@ -2,6 +2,15 @@ import React from "react";
 import { Fragment, useState } from "react";
 
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
+import { XIcon } from "@heroicons/react/outline";
+import {
+  ChevronDownIcon,
+  FilterIcon,
+  MinusSmIcon,
+  PlusSmIcon,
+  ViewGridIcon,
+} from "@heroicons/react/solid";
+
 import Products from "../Product/Products";
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -102,7 +111,7 @@ export default function Category() {
                       onClick={() => setMobileFiltersOpen(false)}
                     >
                       <span className="sr-only">Close menu</span>
-                      {/* <XIcon className="h-6 w-6" aria-hidden="true" /> */}
+                      <XIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
                   </div>
 
@@ -136,17 +145,18 @@ export default function Category() {
                                   {section.name}
                                 </span>
                                 <span className="ml-6 flex items-center">
-                                  {open
-                                    ? // <MinusSmIcon
-                                      //   className="h-5 w-5"
-                                      //   aria-hidden="true"
-                                      // />
-                                      "minus"
-                                    : // <PlusSmIcon
-                                      //   className="h-5 w-5"
-                                      //   aria-hidden="true"
-                                      // />
-                                      "plus"}
+                                  Sort
+                                  {open ? (
+                                    <MinusSmIcon
+                                      className="h-5 w-5"
+                                      aria-hidden="true"
+                                    />
+                                  ) : (
+                                    <PlusSmIcon
+                                      className="h-5 w-5"
+                                      aria-hidden="true"
+                                    />
+                                  )}
                                 </span>
                               </Disclosure.Button>
                             </h3>
@@ -197,10 +207,10 @@ export default function Category() {
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                     Sort
-                    {/* <ChevronDownIcon
+                    <ChevronDownIcon
                       className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
-                    /> */}
+                    />
                   </Menu.Button>
                 </div>
 
@@ -240,18 +250,11 @@ export default function Category() {
 
               <button
                 type="button"
-                className="p-2 -m-2 ml-5 sm:ml-7 text-gray-400 hover:text-gray-500"
-              >
-                <span className="sr-only">View grid</span>
-                {/* <ViewGridIcon className="w-5 h-5" aria-hidden="true" /> */}
-              </button>
-              <button
-                type="button"
                 className="p-2 -m-2 ml-4 sm:ml-6 text-gray-400 hover:text-gray-500 lg:hidden"
                 onClick={() => setMobileFiltersOpen(true)}
               >
                 <span className="sr-only">Filters</span>
-                {/* <FilterIcon className="w-5 h-5" aria-hidden="true" /> */}
+                <FilterIcon className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -290,17 +293,17 @@ export default function Category() {
                               {section.name}
                             </span>
                             <span className="ml-6 flex items-center">
-                              {open
-                                ? // <MinusSmIcon
-                                  //   className="h-5 w-5"
-                                  //   aria-hidden="true"
-                                  // />
-                                  "minus"
-                                : // <PlusSmIcon
-                                  //   className="h-5 w-5"
-                                  //   aria-hidden="true"
-                                  // />
-                                  "plus"}
+                              {open ? (
+                                <MinusSmIcon
+                                  className="h-5 w-5"
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <PlusSmIcon
+                                  className="h-5 w-5"
+                                  aria-hidden="true"
+                                />
+                              )}
                             </span>
                           </Disclosure.Button>
                         </h3>
