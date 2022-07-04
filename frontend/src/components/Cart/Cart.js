@@ -6,8 +6,8 @@ import OrderSummary from "./OrderSummary";
 export default function Cart() {
   const [checkout, setCheckout] = useState(false);
   return (
-    <div>
-      <h1 className="max-w-2xl mx-auto mt-6  px-4 sm:px-6 lg:max-w-7xl  text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+    <div className="bg-gray-100">
+      <h1 className="max-w-2xl mx-auto pt-6  px-4 sm:px-6 lg:max-w-7xl  text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
         Cart
       </h1>
       <div className="max-w-2xl mx-auto pt-10 pb-16 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">

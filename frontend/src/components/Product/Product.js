@@ -62,7 +62,7 @@ export default function Product() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
   return (
-    <div>
+    <div className="bg-gray-100">
       {/* <div className="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-1 lg:gap-x-8"></div> */}
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
