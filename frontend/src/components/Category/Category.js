@@ -70,7 +70,7 @@ function classNames(...classes) {
 export default function Category() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   return (
-    <div className="bg-white">
+    <div className="bg-gray-100">
       <div>
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
           <Dialog
@@ -100,7 +100,7 @@ export default function Category() {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <Dialog.Panel className="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-12 flex flex-col overflow-y-auto">
+                <Dialog.Panel className="ml-auto relative max-w-xs w-full h-full bg-gray-100 shadow-xl py-4 pb-12 flex flex-col overflow-y-auto">
                   <div className="px-4 flex items-center justify-between">
                     <h2 className="text-lg font-medium text-gray-900">
                       Filters
@@ -116,11 +116,11 @@ export default function Category() {
                   </div>
 
                   {/* Filters */}
-                  <form className="mt-4 border-t border-gray-200">
+                  <form className="mt-4 border-t border-gray-200 bg-gray-100">
                     <h3 className="sr-only">Categories</h3>
                     <ul
                       role="list"
-                      className="font-medium text-gray-900 px-2 py-3"
+                      className="font-medium text-gray-900 px-2 py-3 bg-gray-100"
                     >
                       {subCategories.map((category) => (
                         <li key={category.name}>
@@ -135,12 +135,12 @@ export default function Category() {
                       <Disclosure
                         as="div"
                         key={section.id}
-                        className="border-t border-gray-200 px-4 py-6"
+                        className="border-t bg-gray-100 border-gray-200 px-4 py-6"
                       >
                         {({ open }) => (
                           <>
                             <h3 className="-mx-2 -my-3 flow-root">
-                              <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
+                              <Disclosure.Button className="px-2 bg-gray-100 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
                                 <span className="font-medium text-gray-900">
                                   {section.name}
                                 </span>
@@ -160,7 +160,7 @@ export default function Category() {
                                 </span>
                               </Disclosure.Button>
                             </h3>
-                            <Disclosure.Panel className="pt-6">
+                            <Disclosure.Panel className="pt-6 bg-gray-100">
                               <div className="space-y-6">
                                 {section.options.map((option, optionIdx) => (
                                   <div
@@ -288,7 +288,7 @@ export default function Category() {
                     {({ open }) => (
                       <>
                         <h3 className="-my-3 flow-root">
-                          <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
+                          <Disclosure.Button className="py-3 w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
                             <span className="font-medium text-gray-900">
                               {section.name}
                             </span>

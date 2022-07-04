@@ -15,11 +15,11 @@ export default function Cart() {
           <CartProduct />
         </div>
         <div className="mt-4 lg:mt-0 lg:row-span-3">
-          <div className="md:mt-0 md:col-span-2 bg-gray-50">
+          <div className="md:mt-0 md:col-span-2 bg-gray-50 rounded">
             {!checkout ? (
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <OrderSummary />
-                <div className="px-4 pb-4 bg-gray-50 sm:px-6">
+                <div className="px-4 pb-4 sm:px-6">
                   <button
                     onClick={() => {
                       setCheckout(true);
@@ -34,7 +34,7 @@ export default function Cart() {
             ) : (
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <Checkout />
-                <div className="px-4 pb-4 bg-gray-50 sm:px-6">
+                <div className="px-4 pb-4 sm:px-6">
                   <button
                     onClick={() => {
                       setCheckout(false);

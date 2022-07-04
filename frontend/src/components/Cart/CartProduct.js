@@ -27,11 +27,11 @@ export default function CartProduct() {
     <div>
       <div className="flex flex-col justify-between md:flex-row">
         <div className="flex">
-          <div className="aspect-w-4 aspect-h-2 sm:rounded-lg sm:overflow-hidden lg:aspect-w-3 lg:aspect-h-4">
+          <div className="aspect-w-4 rounded aspect-h-2 sm:rounded-lg sm:overflow-hidden lg:aspect-w-3 lg:aspect-h-4">
             <img
               src={product.image[0].src}
               alt={product.image[0].alt}
-              className="w-32 h-40 object-center object-cover"
+              className="w-32 rounded h-40 object-center object-cover"
             />
           </div>
 
@@ -40,7 +40,7 @@ export default function CartProduct() {
               {product.name}
             </p>
             <p className="mt-1/2 text-md tracking-tight text-gray-500 sm:text-md">
-              {product.color} | {product.size.name} S
+              {product.color} | {product.size[0].name}
             </p>
             <p className="mt-1/2 text-md font-medium tracking-tight text-gray-900 sm:text-md">
               {product.price}
@@ -53,14 +53,14 @@ export default function CartProduct() {
           <div className="flex md:mt-0 items-center">
             <button
               type="button"
-              className="mt-1 w-10 h-10 bg-white p-2 rounded-md flex items-center justify-center text-gray-400"
+              className="mt-1 mr-1 w-10 h-10 bg-white p-1 rounded-md flex items-center justify-center text-gray-400"
             >
               <MinusSmIcon className="h-5 w-5" />
             </button>
             <p className="text-semibold">1</p>
             <button
               type="button"
-              className="-mr-2 mt-1 w-10 h-10 bg-white p-2 rounded-md flex items-center justify-center text-gray-400"
+              className="-mr-2 mt-1  ml-1 w-10 h-10 bg-white p-2 rounded-md flex items-center justify-center text-gray-400"
             >
               <PlusSmIcon className="h-5 w-5" />
             </button>
