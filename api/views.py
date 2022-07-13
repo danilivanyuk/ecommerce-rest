@@ -16,7 +16,14 @@ from .models import *
 
 
 @api_view(['GET'])
-def getCategoriesSubCategories(request):
+def getCategories(request):
     categories = Category.objects.all()
     serializer = CategorySubCategorySerializer(categories, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getSubCategories(request):
+    subCategories = SubCategory.objects.all()
+    serializer = SubCategorySerializer(subCategories, many=True)
     return Response(serializer.data)

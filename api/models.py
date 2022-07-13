@@ -74,6 +74,7 @@ class Category(models.Model):
         verbose_name=_("category safe URL"),
         help_text=_("format: required, letters, numbers, underscore, or hyphens"),
     )
+    image = models.ImageField(blank=True, null=True)
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Created: ")
     updated_at = models.DateTimeField(

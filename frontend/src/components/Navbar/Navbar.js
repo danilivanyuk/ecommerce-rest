@@ -1,54 +1,15 @@
-import React from "react";
-import { Fragment, useState } from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-const navigation = {
-  categories: [
-    {
-      id: "women",
-      name: "Women",
-      featured: [
-        {
-          name: "New Arrivals",
-          href: "#",
-          imageSrc: "",
-          imageAlt:
-            "Models sitting back to back, wearing Basic Tee in black and bone.",
-        },
-        {
-          name: "Basic Tees",
-          href: "#",
-          imageSrc: "",
-          imageAlt:
-            "Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
-        },
-      ],
-      sections: [
-        {
-          id: "clothing",
-          name: "Clothing",
-          items: [
-            { name: "Tops", href: "#" },
-            { name: "Dresses", href: "#" },
-            { name: "Pants", href: "#" },
-            { name: "Denim", href: "#" },
-            { name: "Sweaters", href: "#" },
-            { name: "T-Shirts", href: "#" },
-            { name: "Jackets", href: "#" },
-            { name: "Activewear", href: "#" },
-            { name: "Browse All", href: "#" },
-          ],
-        },
-      ],
-    },
-  ],
-  pages: [
-    { name: "Company", href: "#" },
-    { name: "Stores", href: "#" },
-  ],
-};
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getCategoriesSubcategories } from "../../actions/categories";
 
 export default function Navbar() {
+  const { categoriesArr } = useSelector((store) => store.categories);
+  const { subCategoriesArr } = useSelector((store) => store.subcategories);
+
   const [open, setOpen] = useState(false);
 
   function classNames(...classes) {
@@ -99,9 +60,9 @@ export default function Navbar() {
                 <Tab.Group as="div" className="mt-2">
                   <div className="border-b border-gray-200">
                     <Tab.List className="-mb-px flex px-4 space-x-8">
-                      {navigation.categories.map((category) => (
+                      {categoriesArr.map((category) => (
                         <Tab
-                          key={category.name}
+                          key={category.title}
                           className={({ selected }) =>
                             classNames(
                               selected
@@ -111,19 +72,19 @@ export default function Navbar() {
                             )
                           }
                         >
-                          {category.name}
+                          {category.title}
                         </Tab>
                       ))}
                     </Tab.List>
                   </div>
                   <Tab.Panels as={Fragment}>
-                    {navigation.categories.map((category) => (
+                    {categoriesArr.map((category) => (
                       <Tab.Panel
-                        key={category.name}
+                        key={category.title}
                         className="pt-10 pb-8 px-4 space-y-10"
                       >
                         <div className="grid grid-cols-2 gap-x-4">
-                          {category.featured.map((item) => (
+                          {/* {category.featured.map((item) => (
                             <div
                               key={item.name}
                               className="group relative text-sm"
@@ -149,31 +110,31 @@ export default function Navbar() {
                                 Shop now
                               </p>
                             </div>
-                          ))}
+                          ))} */}
                         </div>
-                        {category.sections.map((section) => (
-                          <div key={section.name}>
+                        {category.subcategories.map((section) => (
+                          <div key={section.title}>
                             <p
                               id={`${category.id}-${section.id}-heading-mobile`}
                               className="font-medium text-gray-900"
                             >
-                              {section.name}
+                              {section.title}
                             </p>
                             <ul
                               role="list"
                               aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
                               className="mt-6 flex flex-col space-y-6"
                             >
-                              {section.items.map((item) => (
-                                <li key={item.name} className="flow-root">
+                              {/* {section.items.map((item) => (
+                                <li key={item.title} className="flow-root">
                                   <a
-                                    href={item.href}
+                                    // href={item.href}
                                     className="-m-2 p-2 block text-gray-500"
                                   >
-                                    {item.name}
+                                    {item.title}
                                   </a>
                                 </li>
-                              ))}
+                              ))} */}
                             </ul>
                           </div>
                         ))}
@@ -183,7 +144,7 @@ export default function Navbar() {
                 </Tab.Group>
 
                 <div className="border-t border-gray-200 py-6 px-4 space-y-6">
-                  {navigation.pages.map((page) => (
+                  {/* {pages.map((page) => (
                     <div key={page.name} className="flow-root">
                       <a
                         href={page.href}
@@ -192,7 +153,7 @@ export default function Navbar() {
                         {page.name}
                       </a>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
                 <div className="flex lg:ml-6">
                   <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
@@ -226,9 +187,7 @@ export default function Navbar() {
           </div>
         </Dialog>
       </Transition.Root>
-
-      {/* Desktop view */}
-
+      ;{/* Desktop view */}
       <header className="relative bg-white border-b border-gray-200">
         <nav
           aria-label="Top"
@@ -259,8 +218,8 @@ export default function Navbar() {
               {/* Flyout menus */}
               <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="h-full flex space-x-8">
-                  {navigation.categories.map((category) => (
-                    <Popover key={category.name} className="flex">
+                  {categoriesArr.map((category) => (
+                    <Popover key={category.title} className="flex">
                       {({ open }) => (
                         <>
                           <div className="relative flex">
@@ -272,7 +231,7 @@ export default function Navbar() {
                                 "relative z-50 flex items-center transition-colors ease-out duration-200 text-sm font-medium border-b-2 -mb-px pt-px"
                               )}
                             >
-                              {category.name}
+                              {category.title}
                             </Popover.Button>
                           </div>
 
@@ -295,7 +254,7 @@ export default function Navbar() {
                               <div className="relative bg-white">
                                 <div className="max-w-7xl mx-auto px-8">
                                   <div className="grid grid-cols-2 gap-y-10 gap-x-8 py-16">
-                                    <div className="col-start-2 grid grid-cols-2 gap-x-8">
+                                    {/* <div className="col-start-2 grid grid-cols-2 gap-x-8">
                                       {category.featured.map((item) => (
                                         <div
                                           key={item.name}
@@ -326,35 +285,21 @@ export default function Navbar() {
                                           </p>
                                         </div>
                                       ))}
-                                    </div>
+                                    </div> */}
                                     <div className="row-start-1 grid grid-cols-3 gap-y-10 gap-x-8 text-sm">
-                                      {category.sections.map((section) => (
-                                        <div key={section.name}>
+                                      {category.subcategories.map((section) => (
+                                        <div key={section.title}>
                                           <p
-                                            id={`${section.name}-heading`}
+                                            id={`${section.title}-heading`}
                                             className="font-medium text-gray-900"
                                           >
-                                            {section.name}
+                                            {section.title}
                                           </p>
                                           <ul
                                             role="list"
-                                            aria-labelledby={`${section.name}-heading`}
+                                            aria-labelledby={`${section.title}-heading`}
                                             className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                          >
-                                            {section.items.map((item) => (
-                                              <li
-                                                key={item.name}
-                                                className="flex"
-                                              >
-                                                <a
-                                                  href={item.href}
-                                                  className="hover:text-gray-800"
-                                                >
-                                                  {item.name}
-                                                </a>
-                                              </li>
-                                            ))}
-                                          </ul>
+                                          ></ul>
                                         </div>
                                       ))}
                                     </div>
@@ -368,7 +313,7 @@ export default function Navbar() {
                     </Popover>
                   ))}
 
-                  {navigation.pages.map((page) => (
+                  {/* {pages.map((page) => (
                     <a
                       key={page.name}
                       href={page.href}
@@ -376,7 +321,7 @@ export default function Navbar() {
                     >
                       {page.name}
                     </a>
-                  ))}
+                  ))} */}
                 </div>
               </Popover.Group>
 
