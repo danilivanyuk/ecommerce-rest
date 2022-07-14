@@ -7,31 +7,42 @@ from .models import *
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    categoryImage = serializers.SerializerMethodField('get_img_url')
+    imageURL = serializers.SerializerMethodField('get_img_url')
     
     class Meta:
         model = Category
-        fields = ('id', 'title', 'categoryImage')
+        fields = ('id', 'title','imageURL')
+
 
     def get_img_url(self, obj):
+        # if obj.image:
+        #     request = self.context.get('request')
+        #     image_url = obj.image.url
+        #     return request.build_absolute_uri(image_url)
+        # else:
+        #     return ''
         if obj.image:
-            request = self.context.get('request')
-            return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
         else:
             return ''
 
    
 
 class SubCategorySerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField('get_img_url')
+    imageURL = serializers.SerializerMethodField('get_img_url')
 
     class Meta:
         model = SubCategory
-        fields = ('category','id', 'title', 'image')
+        fields = ('category','id', 'title', 'image', 'imageURL', 'slug')
 
     def get_img_url(self, obj):
+        # if obj.image:
+        #     request = self.context.get('request')
+        #     image_url = obj.image.url
+        #     return request.build_absolute_uri(image_url)
+        # else:
+        #     return ''
         if obj.image:
-            request = self.context.get('request')
             return obj.image.url
         else:
             return ''

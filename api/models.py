@@ -63,6 +63,17 @@ SEASON_CHOICES = (
 )
 
 
+def compress(image):
+    im = Image.open(image)
+    # create a BytesIO object
+    im_io = BytesIO()
+    # save image to BytesIO object
+    im.save(im_io, 'JPEG', optimize=True, quality=70)
+    # create a django-friendly Files object
+    new_image = File(im_io, name=image.name)
+    return new_image
+
+
 class Category(models.Model):
     title = models.CharField(
         max_length=100, verbose_name="Category Title", db_index=True)
@@ -74,7 +85,7 @@ class Category(models.Model):
         verbose_name=_("category safe URL"),
         help_text=_("format: required, letters, numbers, underscore, or hyphens"),
     )
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='categories_images/')
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Created: ")
     updated_at = models.DateTimeField(
@@ -86,6 +97,12 @@ class Category(models.Model):
     def getSubCategories(self):
         subcategories = SubCategory.objects.filter(category=self)
         return subcategories
+
+    # def save(self, *args, **kwargs):
+    #     if self.image:
+    #         new_image = compress(self.image)
+    #         # set self.image to new_image
+    #         self.image = new_image
 
 
     class Meta:
@@ -107,12 +124,18 @@ class SubCategory(models.Model):
     )
     title = models.CharField(
         max_length=100, verbose_name="SubCategory Title: ")
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='subcategories_images/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
+
+    # def save(self, *args, **kwargs):
+    #     if self.image:
+    #         new_image = compress(self.image)
+    #         # set self.image to new_image
+    #         self.image = new_image
 
     class Meta:
         ordering = ['-title']
@@ -120,15 +143,6 @@ class SubCategory(models.Model):
         verbose_name_plural = "Subcategories"
 
 
-def compress(image):
-    im = Image.open(image)
-    # create a BytesIO object
-    im_io = BytesIO()
-    # save image to BytesIO object
-    im.save(im_io, 'JPEG', optimize=True, quality=70)
-    # create a django-friendly Files object
-    new_image = File(im_io, name=image.name)
-    return new_image
 
 
 
@@ -142,7 +156,7 @@ class Product(models.Model):
         blank=False,
         verbose_name=_("product name"),
         help_text=_("format: required, max-255"),)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='products_images/')
     imageAlt = models.CharField(blank=True, max_length=60)
     colors = MultiSelectField(null=True, choices = COLOR_CHOICES, max_length=20)
     sizes = MultiSelectField(null=True,choices = CLOTH_SIZE, max_length=20)
@@ -203,10 +217,10 @@ class Product(models.Model):
         return self.title
     
     def save(self, *args, **kwargs):
-        # if self.logo:
-        #     new_image = compress(self.logo)
-        #     # set self.image to new_image
-        #     self.logo = new_image
+        if self.image:
+            new_image = compress(self.image)
+            # set self.image to new_image
+            self.image = new_image
         self.slug = self.title
         return super().save(*args, **kwargs)
 

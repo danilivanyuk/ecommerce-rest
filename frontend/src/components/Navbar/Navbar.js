@@ -10,6 +10,11 @@ export default function Navbar() {
   const { categoriesArr } = useSelector((store) => store.categories);
   const { subCategoriesArr } = useSelector((store) => store.subcategories);
 
+  // categoriesArr.map((category) =>
+  //   subCategoriesArr
+  //     .filter((subcategory) => subcategory.category === category.id)
+  //     .map((filteredSubCategory) => console.log(filteredSubCategory))
+  // );
   const [open, setOpen] = useState(false);
 
   function classNames(...classes) {
@@ -112,20 +117,25 @@ export default function Navbar() {
                             </div>
                           ))} */}
                         </div>
-                        {category.subcategories.map((section) => (
-                          <div key={section.title}>
-                            <p
-                              id={`${category.id}-${section.id}-heading-mobile`}
-                              className="font-medium text-gray-900"
-                            >
-                              {section.title}
-                            </p>
-                            <ul
-                              role="list"
-                              aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
-                              className="mt-6 flex flex-col space-y-6"
-                            >
-                              {/* {section.items.map((item) => (
+                        {subCategoriesArr
+                          .filter(
+                            (subcategory) =>
+                              subcategory.category === category.id
+                          )
+                          .map((subcategory) => (
+                            <div key={subcategory.title}>
+                              <p
+                                id={`${category.id}-${subcategory.id}-heading-mobile`}
+                                className="font-medium text-gray-900"
+                              >
+                                {subcategory.title}
+                              </p>
+                              <ul
+                                role="list"
+                                aria-labelledby={`${category.id}-${subcategory.id}-heading-mobile`}
+                                className="mt-6 flex flex-col space-y-6"
+                              >
+                                {/* {section.items.map((item) => (
                                 <li key={item.title} className="flow-root">
                                   <a
                                     // href={item.href}
@@ -135,9 +145,9 @@ export default function Navbar() {
                                   </a>
                                 </li>
                               ))} */}
-                            </ul>
-                          </div>
-                        ))}
+                              </ul>
+                            </div>
+                          ))}
                       </Tab.Panel>
                     ))}
                   </Tab.Panels>
@@ -187,7 +197,9 @@ export default function Navbar() {
           </div>
         </Dialog>
       </Transition.Root>
-      ;{/* Desktop view */}
+
+      {/* Desktop view */}
+
       <header className="relative bg-white border-b border-gray-200">
         <nav
           aria-label="Top"
@@ -287,21 +299,26 @@ export default function Navbar() {
                                       ))}
                                     </div> */}
                                     <div className="row-start-1 grid grid-cols-3 gap-y-10 gap-x-8 text-sm">
-                                      {category.subcategories.map((section) => (
-                                        <div key={section.title}>
-                                          <p
-                                            id={`${section.title}-heading`}
-                                            className="font-medium text-gray-900"
-                                          >
-                                            {section.title}
-                                          </p>
-                                          <ul
-                                            role="list"
-                                            aria-labelledby={`${section.title}-heading`}
-                                            className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                          ></ul>
-                                        </div>
-                                      ))}
+                                      {subCategoriesArr
+                                        .filter(
+                                          (subcategory) =>
+                                            subcategory.category === category.id
+                                        )
+                                        .map((subcategory) => (
+                                          <div key={subcategory.title}>
+                                            <p
+                                              id={`${subcategory.title}-heading`}
+                                              className="font-medium text-gray-900"
+                                            >
+                                              {subcategory.title}
+                                            </p>
+                                            <ul
+                                              role="list"
+                                              aria-labelledby={`${subcategory.title}-heading`}
+                                              className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+                                            ></ul>
+                                          </div>
+                                        ))}
                                     </div>
                                   </div>
                                 </div>
