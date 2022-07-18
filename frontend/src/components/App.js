@@ -28,7 +28,7 @@ export default function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/category" element={<Category />} />
+            <Route path={`/category/:subcategoryName`} element={<Category />} />
             <Route path="/product" element={<Product />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/cart" element={<Cart />} />

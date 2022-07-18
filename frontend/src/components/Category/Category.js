@@ -1,7 +1,9 @@
 import React from "react";
 import { Fragment, useState } from "react";
-
+import { useLocation } from "react-router-dom";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { XIcon } from "@heroicons/react/outline";
 import {
   ChevronDownIcon,
@@ -13,19 +15,11 @@ import {
 
 import Products from "../Product/Products";
 const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
   { name: "Newest", href: "#", current: false },
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ];
-const subCategories = [
-  { name: "Totes", href: "#" },
-  { name: "Backpacks", href: "#" },
-  { name: "Travel Bags", href: "#" },
-  { name: "Hip Bags", href: "#" },
-  { name: "Laptop Sleeves", href: "#" },
-];
+
 const filters = [
   {
     id: "color",
@@ -39,17 +33,7 @@ const filters = [
       { value: "purple", label: "Purple", checked: false },
     ],
   },
-  {
-    id: "category",
-    name: "Category",
-    options: [
-      { value: "new-arrivals", label: "New Arrivals", checked: false },
-      { value: "sale", label: "Sale", checked: false },
-      { value: "travel", label: "Travel", checked: true },
-      { value: "organization", label: "Organization", checked: false },
-      { value: "accessories", label: "Accessories", checked: false },
-    ],
-  },
+
   {
     id: "size",
     name: "Size",
@@ -68,6 +52,13 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 export default function Category() {
+  const location = useLocation();
+  const data = location.state;
+  const selectedSubcategoryId = data.subcategoryId;
+  const selectedCategoryId = data.categoryId;
+  const { categoriesArr } = useSelector((store) => store.categories);
+  const { subCategoriesArr } = useSelector((store) => store.subcategories);
+  console.log(data);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   return (
     <div className="bg-gray-100">
@@ -122,13 +113,21 @@ export default function Category() {
                       role="list"
                       className="font-medium text-gray-900 px-2 py-3 bg-gray-100"
                     >
-                      {subCategories.map((category) => (
-                        <li key={category.name}>
-                          <a href={category.href} className="block px-2 py-3">
-                            {category.name}
-                          </a>
-                        </li>
-                      ))}
+                      {subCategoriesArr
+                        .filter(
+                          (subcategory) =>
+                            subcategory.category === selectedCategoryId
+                        )
+                        .map((subcategory) => (
+                          <li key={subcategory.title}>
+                            <a
+                              href={subcategory.slug}
+                              className="block px-2 py-3"
+                            >
+                              {subcategory.title}
+                            </a>
+                          </li>
+                        ))}
                     </ul>
 
                     {filters.map((section) => (
@@ -272,11 +271,16 @@ export default function Category() {
                   role="list"
                   className="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200"
                 >
-                  {subCategories.map((category) => (
-                    <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
-                    </li>
-                  ))}
+                  {subCategoriesArr
+                    .filter(
+                      (subcategory) =>
+                        subcategory.category === selectedCategoryId
+                    )
+                    .map((subcategory) => (
+                      <li key={subcategory.title}>
+                        <a href={subcategory.slug}>{subcategory.title}</a>
+                      </li>
+                    ))}
                 </ul>
 
                 {filters.map((section) => (
@@ -340,7 +344,7 @@ export default function Category() {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                <Products />
+                <Products subcategory={selectedSubcategoryId} />
               </div>
             </div>
           </section>

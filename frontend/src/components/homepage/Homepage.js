@@ -10,17 +10,21 @@ export default function Homepage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto py-16 sm:py-24 lg:py-32 lg:max-w-none">
           <h2 className="text-2xl font-extrabold text-gray-900">Categories</h2>
-          {categoriesArr.map((category) => {
+          {/* {categoriesArr.map((category) => {
             <p>{category.title}</p>;
             <img className="menu-logo" src={category.imageURL[0]} alt="img" />;
-          })}
+          })} */}
           <div className="mt-6 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-6">
             {categoriesArr.map((category) =>
               subCategoriesArr
                 .filter((subcategory) => subcategory.category === category.id)
                 .map((subcategory) => (
                   <Link
-                    to={subcategory.slug}
+                    to={"category/" + subcategory.slug}
+                    state={{
+                      subcategoryId: subcategory.id,
+                      categoryId: category.id,
+                    }}
                     key={subcategory.title}
                     className="group relative"
                   >
