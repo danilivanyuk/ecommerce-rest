@@ -11,7 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Category
-        fields = ('id', 'title','imageURL')
+        fields = ('id', 'title','imageURL', 'slug')
 
 
     def get_img_url(self, obj):

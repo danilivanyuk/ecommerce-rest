@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 const products = [
@@ -58,19 +58,23 @@ const products = [
 ];
 
 export default function Products(props) {
+  const URLparams = useParams();
   const { selectedSubcategoryId } = props;
   const { productsArr } = useSelector((store) => store.products);
   // console.log(selectedSubcategoryId);
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-      <Link
-        to="/product"
-        className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
-      >
+      <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
         {productsArr
           .filter((product) => product.subcategory === selectedSubcategoryId)
           .map((product) => (
-            <div key={product.id} className="group relative">
+            <Link
+              key={product.id}
+              to={`${product.slug}`}
+              state={product}
+              className="group relative"
+            >
+              {product.slug}
               <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
                 <img
                   src={product.image}
@@ -92,9 +96,9 @@ export default function Products(props) {
                   {product.sell_price}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
-      </Link>
+      </div>
     </div>
   );
 }

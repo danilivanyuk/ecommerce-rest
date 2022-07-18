@@ -221,7 +221,7 @@ class Product(models.Model):
             new_image = compress(self.image)
             # set self.image to new_image
             self.image = new_image
-        self.slug = self.title
+        # self.slug = self.title
         return super().save(*args, **kwargs)
 
 

@@ -1,9 +1,9 @@
 import React from "react";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { XIcon } from "@heroicons/react/outline";
@@ -54,13 +54,29 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 export default function Category() {
-  const location = useLocation();
-  const data = location.state;
-  console.log(data);
-  const selectedSubcategoryId = data.subcategoryId;
-  const selectedCategoryId = data.categoryId;
   const { categoriesArr } = useSelector((store) => store.categories);
   const { subCategoriesArr } = useSelector((store) => store.subcategories);
+
+  // const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(1);
+  // const [selectedCategoryId, setSelectedCategoryId] = useState(1);
+
+  const location = useLocation();
+  const data = location.state;
+
+  let URLparams = useParams();
+  // console.log("params", URLparams);
+  const selectedSubcategorySlug = URLparams.subcategory;
+  const selectedCategorySlug = URLparams.category;
+
+  let currentSubcategory =
+    subCategoriesArr.length > 0
+      ? subCategoriesArr.find(
+          (subcategory) => subcategory.slug === selectedSubcategorySlug
+        )
+      : [];
+  let selectedSubcategoryId = currentSubcategory.id;
+  let selectedCategoryId = currentSubcategory.category;
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   return (
     <div className="bg-gray-100">
@@ -121,17 +137,19 @@ export default function Category() {
                             subcategory.category === selectedCategoryId
                         )
                         .map((subcategory) => (
-                          <Link
-                            to={"category/" + subcategory.slug}
-                            state={{
-                              subcategoryId: subcategory.id,
-                              categoryId: subcategory.category,
-                            }}
-                            key={subcategory.title}
-                            className="group relative"
-                          >
-                            {subcategory.title}
-                          </Link>
+                          <li>
+                            <Link
+                              to={`${selectedCategorySlug}/${subcategory.slug}`}
+                              state={{
+                                subcategoryId: subcategory.id,
+                                categoryId: subcategory.category,
+                              }}
+                              key={subcategory.title}
+                              className=""
+                            >
+                              {subcategory.title}
+                            </Link>
+                          </li>
                         ))}
                     </ul>
 
@@ -284,7 +302,7 @@ export default function Category() {
                     .map((subcategory) => (
                       <li>
                         <Link
-                          to={`/category/${subcategory.slug}`}
+                          to={`/${selectedCategorySlug}/${subcategory.slug}`}
                           state={{
                             subcategoryId: subcategory.id,
                             categoryId: subcategory.category,

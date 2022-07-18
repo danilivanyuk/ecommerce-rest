@@ -30,11 +30,19 @@ export default function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Homepage />} />
+            <Route path=":category/:subcategory/" element={<Category />}>
+              <Route path=":productTitle" element={<Product />} />
+            </Route>
+            <Route path="profile" element={<Profile />} />
+            <Route path="cart" element={<Cart />} />
+          </Routes>
+          {/* <Routes>
+            <Route path="/" element={<Homepage />} />
             <Route path={`/category/:subcategoryName`} element={<Category />} />
-            <Route path="/product" element={<Product />} />
+            <Route path="/product/:productSlug" element={<Product />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/cart" element={<Cart />} />
-          </Routes>
+          </Routes> */}
         </Fragment>
       </Router>
     </div>
