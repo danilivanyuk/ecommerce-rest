@@ -27,3 +27,9 @@ def getSubCategories(request):
     subCategories = SubCategory.objects.all()
     serializer = SubCategorySerializer(subCategories, many=True,context={'request': request})
     return Response(serializer.data)
+
+@api_view(['GET'])
+def getProducts(request):
+    products = Product.objects.all()
+    serializer = ProductSerializer(products, many=True,context={'request': request})
+    return Response(serializer.data)

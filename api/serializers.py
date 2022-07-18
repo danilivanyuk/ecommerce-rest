@@ -47,6 +47,13 @@ class SubCategorySerializer(serializers.ModelSerializer):
         else:
             return ''
 
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        # fields = ('subcategory','title', 'image', 'imageAlt', 'sizes', 'inStock', 'gender', 'description', 'sell_price', 'slug')
+        fields = '__all__'
+
 class CategorySubCategorySerializer(serializers.ModelSerializer):
     subcategories = serializers.SerializerMethodField('getSubCategories')
     categoryImage = serializers.SerializerMethodField('get_img_url')

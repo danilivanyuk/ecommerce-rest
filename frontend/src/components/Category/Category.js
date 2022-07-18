@@ -2,6 +2,8 @@ import React from "react";
 import { Fragment, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
+import { Link } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import { XIcon } from "@heroicons/react/outline";
@@ -54,11 +56,11 @@ function classNames(...classes) {
 export default function Category() {
   const location = useLocation();
   const data = location.state;
+  console.log(data);
   const selectedSubcategoryId = data.subcategoryId;
   const selectedCategoryId = data.categoryId;
   const { categoriesArr } = useSelector((store) => store.categories);
   const { subCategoriesArr } = useSelector((store) => store.subcategories);
-  console.log(data);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   return (
     <div className="bg-gray-100">
@@ -119,14 +121,17 @@ export default function Category() {
                             subcategory.category === selectedCategoryId
                         )
                         .map((subcategory) => (
-                          <li key={subcategory.title}>
-                            <a
-                              href={subcategory.slug}
-                              className="block px-2 py-3"
-                            >
-                              {subcategory.title}
-                            </a>
-                          </li>
+                          <Link
+                            to={"category/" + subcategory.slug}
+                            state={{
+                              subcategoryId: subcategory.id,
+                              categoryId: subcategory.category,
+                            }}
+                            key={subcategory.title}
+                            className="group relative"
+                          >
+                            {subcategory.title}
+                          </Link>
                         ))}
                     </ul>
 
@@ -277,8 +282,18 @@ export default function Category() {
                         subcategory.category === selectedCategoryId
                     )
                     .map((subcategory) => (
-                      <li key={subcategory.title}>
-                        <a href={subcategory.slug}>{subcategory.title}</a>
+                      <li>
+                        <Link
+                          to={`/category/${subcategory.slug}`}
+                          state={{
+                            subcategoryId: subcategory.id,
+                            categoryId: subcategory.category,
+                          }}
+                          key={subcategory.title}
+                          className=""
+                        >
+                          {subcategory.title}
+                        </Link>
                       </li>
                     ))}
                 </ul>
@@ -344,7 +359,7 @@ export default function Category() {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                <Products subcategory={selectedSubcategoryId} />
+                <Products selectedSubcategoryId={selectedSubcategoryId} />
               </div>
             </div>
           </section>

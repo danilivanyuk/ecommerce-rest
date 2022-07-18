@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getCategories } from "../features/categoriesSlice";
 import { getSubCategories } from "../features/subCategoriesSlice";
+import { getProducts } from "../features/productsSlice";
 
 import Homepage from "./Homepage/Homepage";
 import Navbar from "./Navbar/Navbar";
@@ -19,6 +20,7 @@ export default function App() {
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getSubCategories());
+    dispatch(getProducts());
   }, []);
 
   return (

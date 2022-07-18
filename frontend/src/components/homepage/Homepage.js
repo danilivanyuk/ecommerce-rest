@@ -23,7 +23,7 @@ export default function Homepage() {
                     to={"category/" + subcategory.slug}
                     state={{
                       subcategoryId: subcategory.id,
-                      categoryId: category.id,
+                      categoryId: subcategory.category,
                     }}
                     key={subcategory.title}
                     className="group relative"

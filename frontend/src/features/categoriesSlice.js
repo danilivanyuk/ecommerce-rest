@@ -5,11 +5,11 @@ const initialState = {
   categoriesArr: [],
   isLoading: true,
 };
-let getCategories_url = `/api/getCategories/`;
+let getCategoriesUrl = `/api/getCategories/`;
 
-export const getCategories = createAsyncThunk(getCategories_url, async () => {
+export const getCategories = createAsyncThunk(getCategoriesUrl, async () => {
   try {
-    const resp = await axios(getCategories_url);
+    const resp = await axios(getCategoriesUrl);
     return resp.data;
   } catch {
     return thunkAPI.rejectWithValue("something went wrong");
@@ -29,7 +29,6 @@ const categoriesSlice = createSlice({
       state.categoriesArr = action.payload;
     },
     [getCategories.rejected]: (state, action) => {
-      console.log(action);
       state.isLoading = false;
     },
   },
