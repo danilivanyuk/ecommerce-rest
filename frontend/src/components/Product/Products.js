@@ -70,7 +70,7 @@ export default function Products(props) {
           .map((product) => (
             <Link
               key={product.id}
-              to={`${product.slug}`}
+              to={`/${product.slug}/`}
               state={product}
               className="group relative"
             >
