@@ -12,6 +12,7 @@ import Profile from "./Profile/Profile";
 import Category from "./Category/Category";
 import Product from "./Product/Product";
 import Cart from "./Cart/Cart";
+import NotFound from "./Errors/NotFound";
 import "./static/main.css";
 
 export default function App() {
@@ -30,11 +31,16 @@ export default function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path=":category/:subcategory/" element={<Category />}>
-              <Route path=":productTitle" element={<Product />} />
-            </Route>
+            <Route path=":category/:subcategory/" element={<Category />} />
+
+            <Route
+              path=":category/:subcategory/:productSlug"
+              element={<Product />}
+            />
             <Route path="profile" element={<Profile />} />
             <Route path="cart" element={<Cart />} />
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
           {/* <Routes>
             <Route path="/" element={<Homepage />} />

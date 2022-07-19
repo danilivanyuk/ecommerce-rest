@@ -61,7 +61,7 @@ export default function Products(props) {
   const URLparams = useParams();
   const { selectedSubcategoryId } = props;
   const { productsArr } = useSelector((store) => store.products);
-  // console.log(selectedSubcategoryId);
+  console.log(selectedSubcategoryId);
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
       <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -70,7 +70,8 @@ export default function Products(props) {
           .map((product) => (
             <Link
               key={product.id}
-              to={`/${product.slug}/`}
+              to={product.slug}
+              // to={`/Shoes/Trainers/${product.slug}`}
               state={product}
               className="group relative"
             >
