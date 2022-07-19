@@ -49,10 +49,15 @@ class SubCategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField('getProductImages')
     class Meta:
         model = Product
         # fields = ('subcategory','title', 'image', 'imageAlt', 'sizes', 'inStock', 'gender', 'description', 'sell_price', 'slug')
         fields = '__all__'
+    
+    def getProductImages(self, obj):
+        images = ProductImage.objects.filter(product=obj).values('image', 'imageAlt')
+        return images
 
 class CategorySubCategorySerializer(serializers.ModelSerializer):
     subcategories = serializers.SerializerMethodField('getSubCategories')

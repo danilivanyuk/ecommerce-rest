@@ -16,6 +16,7 @@ from PIL import Image
 from django.core.files import File
 
 from django.utils.translation import gettext_lazy as _
+from numpy import product
 
 class Customer(models.Model):
     user = models.OneToOneField(
@@ -156,8 +157,8 @@ class Product(models.Model):
         blank=False,
         verbose_name=_("product name"),
         help_text=_("format: required, max-255"),)
-    image = models.ImageField(blank=True, null=True, upload_to='products_images/')
-    imageAlt = models.CharField(blank=True, max_length=60)
+    # image = models.ImageField(blank=True, null=True, upload_to='products_images/')
+    # imageAlt = models.CharField(blank=True, max_length=60)
     colors = MultiSelectField(null=True, choices = COLOR_CHOICES, max_length=20)
     sizes = MultiSelectField(null=True,choices = CLOTH_SIZE, max_length=20)
     inStock = models.BooleanField(default=True,
@@ -216,17 +217,30 @@ class Product(models.Model):
     def __str__(self):
         return self.title
     
+    # def save(self, *args, **kwargs):
+    #     if self.image:
+    #         new_image = compress(self.image)
+    #         # set self.image to new_image
+    #         self.image = new_image
+    #     # self.slug = self.title
+    #     return super().save(*args, **kwargs)
+
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image = models.ImageField(blank=True, null=True, upload_to='products_images/')
+    imageAlt = models.CharField(blank=True, max_length=60)
+
+    def __str__(self):
+        return str(self.product)
+
     def save(self, *args, **kwargs):
         if self.image:
             new_image = compress(self.image)
             # set self.image to new_image
             self.image = new_image
-        # self.slug = self.title
         return super().save(*args, **kwargs)
-
-
-
-
 
 
 
