@@ -3,6 +3,7 @@ import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 // const product = {
 //   name: "Basic Tee 6-Pack",
 //   price: "$192",
@@ -62,19 +63,32 @@ function classNames(...classes) {
 }
 export default function Product() {
   const URLparams = useParams();
-  console.log(URLparams);
   const [selectedColor, setSelectedColor] = useState("White");
   const [selectedSize, setSelectedSize] = useState("XS");
   const { productsArr, isLoading } = useSelector((store) => store.products);
 
-  console.log(isLoading);
-
   let selectedProduct = productsArr.find(
     (product) => product.slug === URLparams.productSlug
   );
+  let currentImage;
+  while (!isLoading) {
+    currentImage = selectedProduct.images.find((image) =>
+      image.image.includes(selectedColor.toLowerCase())
+    );
+    break;
+  }
+  // let currentImage = !isLoading
+  //   ? selectedProduct.images.find((image) =>
+  //       image.image.includes(selectedColor.toLowerCase())
+  //     )
+  //   : [];
+  // console.log("image: ", currentImage);
+  // console.log("productsArr", productsArr);
+  // console.log("Selected Product", selectedProduct.images);
 
-  console.log("productsArr", productsArr);
-  console.log("Selected Product", selectedProduct);
+  console.log(URLparams["category"]);
+  const location = useLocation();
+  console.log("pathname", location.pathname);
 
   if (isLoading) {
     return (
@@ -92,14 +106,30 @@ export default function Product() {
               role="list"
               className="max-w-2xl mx-auto px-4 flex items-center space-x-2 sm:px-6 lg:max-w-7xl lg:px-8"
             >
-              {/* {product.breadcrumbs.map((breadcrumb) => (
-              <li key={breadcrumb.id}>
+              <li>
                 <div className="flex items-center">
                   <a
-                    href={breadcrumb.href}
+                    href={`/${URLparams["category"]}`}
                     className="mr-2 text-sm font-medium text-gray-900"
                   >
-                    {breadcrumb.name}
+                    {URLparams["category"]}
+                  </a>
+                  <svg
+                    width={16}
+                    height={20}
+                    viewBox="0 0 16 20"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    className="w-4 h-5 text-gray-300"
+                  >
+                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
+                  </svg>
+                  <a
+                    href={`/${URLparams["category"]}/${URLparams["subcategory"]}`}
+                    className="mr-2 text-sm font-medium text-gray-900"
+                  >
+                    {URLparams["subcategory"]}
                   </a>
                   <svg
                     width={16}
@@ -114,7 +144,7 @@ export default function Product() {
                   </svg>
                 </div>
               </li>
-            ))} */}
+
               <li className="text-sm">
                 <a
                   href={selectedProduct.slug}
@@ -131,8 +161,8 @@ export default function Product() {
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
             <div className="aspect-w-4 aspect-h-5 sm:rounded-lg sm:overflow-hidden lg:aspect-w-3 lg:aspect-h-4">
               <img
-                src={selectedProduct.image}
-                alt={selectedProduct.imageAlt}
+                src={`/static/images/${currentImage.image}`}
+                alt={currentImage.imageAlt}
                 className="w-full h-full object-center object-cover"
               />
             </div>
@@ -158,7 +188,7 @@ export default function Product() {
             <form className="mt-10">
               {/* Colors */}
               <div>
-                <h3 className="text-sm text-gray-900 font-medium">Color</h3>
+                <h3 className="text-sm text-gray-900 font-medium">Colors</h3>
 
                 <RadioGroup
                   value={selectedColor}
@@ -173,6 +203,7 @@ export default function Product() {
                       <RadioGroup.Option
                         key={color}
                         value={color}
+                        style={{ backgroundColor: selectedProduct.color }}
                         className={({ active, checked }) =>
                           classNames(
                             color.selectedClass,
@@ -187,8 +218,10 @@ export default function Product() {
                         </RadioGroup.Label>
                         <span
                           aria-hidden="true"
+                          style={{
+                            backgroundColor: color,
+                          }}
                           className={classNames(
-                            `bg-${color}`,
                             "h-8 w-8 border border-black border-opacity-10 rounded-full"
                           )}
                         />
