@@ -3,17 +3,21 @@ import axios from "axios";
 
 const initialState = {
   subCategoriesArr: [],
+  filteredSubCategoriesArr: [],
   isLoading: true,
+  isSuccess: false,
+  isError: true,
 };
 let getSubCategories_url = `/api/getSubCategories/`;
 
 export const getSubCategories = createAsyncThunk(
   getSubCategories_url,
-  async () => {
+  async (thunkAPI) => {
     try {
       const resp = await axios(getSubCategories_url);
+      console.log("somecall");
       return resp.data;
-    } catch {
+    } catch (error) {
       return thunkAPI.rejectWithValue("something went wrong");
     }
   }
@@ -22,20 +26,32 @@ export const getSubCategories = createAsyncThunk(
 const subCategoriesSlice = createSlice({
   name: "subcategories",
   initialState,
-  reducers: {},
+  reducers: {
+    filterSubcategoriesByCategory: (state, action) => {
+      const categoryId = action.payload;
+      state.subCategoriesArr = state.subCategoriesArr.filter(
+        (subcategory) => subcategory.category === categoryId
+      );
+    },
+  },
   extraReducers: {
     [getSubCategories.pending]: (state) => {
       state.isLoading = true;
     },
     [getSubCategories.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.isSuccess = true;
+      console.log(action.payload);
       state.subCategoriesArr = action.payload;
     },
     [getSubCategories.rejected]: (state, action) => {
       console.log(action);
       state.isLoading = false;
+      state.isError = true;
     },
   },
 });
+
+export const { filterSubcategoriesByCategory } = subCategoriesSlice.actions;
 
 export default subCategoriesSlice.reducer;

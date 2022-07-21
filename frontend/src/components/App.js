@@ -42,17 +42,6 @@ export default function App() {
 
             <Route path="*" element={<NotFound />} />
           </Routes>
-          {/* <Route
-              path=":category/:subcategory/:productSlug"
-              element={<Product />}
-            /> */}
-          {/* <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path={`/category/:subcategoryName`} element={<Category />} />
-            <Route path="/product/:productSlug" element={<Product />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/cart" element={<Cart />} />
-          </Routes> */}
         </Fragment>
       </Router>
     </div>

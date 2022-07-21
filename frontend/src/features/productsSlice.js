@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   productsArr: [],
   isLoading: true,
+  filteredProductsArr: [],
 };
 
 const getProductsUrl = `/api/getProducts/`;
@@ -20,7 +21,14 @@ export const getProducts = createAsyncThunk(getProductsUrl, async () => {
 const productsSlice = createSlice({
   name: "products",
   initialState,
-  reducers: {},
+  reducers: {
+    filterProductsBySubCategory: (state, action) => {
+      subcategoryId = action.payload;
+      state.filteredProductsArr = state.productsArr.filter(
+        (product) => product.subcategory === subcategoryId
+      );
+    },
+  },
   extraReducers: {
     [getProducts.pending]: (state) => {
       state.isLoading = true;

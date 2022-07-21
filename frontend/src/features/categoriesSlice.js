@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+import { filterSubcategoriesByCategory } from "./subCategoriesSlice";
+
 const initialState = {
   categoriesArr: [],
   isLoading: true,

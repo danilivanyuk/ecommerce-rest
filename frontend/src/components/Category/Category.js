@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import { filterSubcategoriesByCategory } from "../../features/subCategoriesSlice";
+
 import { XIcon } from "@heroicons/react/outline";
 import {
   ChevronDownIcon,
@@ -54,30 +56,31 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 export default function Category() {
-  const { categoriesArr } = useSelector((store) => store.categories);
-  const { subCategoriesArr, isLoading } = useSelector(
+  const { categoriesArr, isLoading } = useSelector((store) => store.categories);
+  const { subCategoriesArr, isSuccess, filteredSubCategoriesArr } = useSelector(
     (store) => store.subcategories
   );
-
-  // const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(1);
-  // const [selectedCategoryId, setSelectedCategoryId] = useState(1);
-
-  const location = useLocation();
-  const data = location.state;
-
   let URLparams = useParams();
-  // console.log("params", URLparams);
   const selectedSubcategorySlug = URLparams.subcategory;
   const selectedCategorySlug = URLparams.category;
+  const dispatch = useDispatch();
+  let selectedCategory = [];
 
-  let currentSubcategory = !isLoading
-    ? subCategoriesArr.find(
-        (subcategory) => subcategory.slug === selectedSubcategorySlug
-      )
-    : [];
+  useEffect(() => {
+    // dispatch(filterSubcategoriesByCategory(selectedCategory.id));
+    if (!isLoading) {
+      getCategoryBySlug(selectedCategorySlug);
+    }
+    if (isSuccess) {
+      dispatch(filterSubcategoriesByCategory(selectedCategory.id));
 
-  let selectedSubcategoryId = currentSubcategory.id;
-  let selectedCategoryId = currentSubcategory.category;
+      //   filterSubcategories();
+    }
+  }, [isSuccess]);
+
+  function getCategoryBySlug(slug) {
+    selectedCategory = categoriesArr.find((category) => category.slug === slug);
+  }
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   if (isLoading) {
@@ -140,26 +143,21 @@ export default function Category() {
                         role="list"
                         className="font-medium text-gray-900 px-2 py-3 bg-gray-100"
                       >
-                        {subCategoriesArr
-                          .filter(
-                            (subcategory) =>
-                              subcategory.category === selectedCategoryId
-                          )
-                          .map((subcategory) => (
-                            <li>
-                              <Link
-                                to={`${selectedCategorySlug}/${subcategory.slug}`}
-                                state={{
-                                  subcategoryId: subcategory.id,
-                                  categoryId: subcategory.category,
-                                }}
-                                key={subcategory.title}
-                                className=""
-                              >
-                                {subcategory.title}
-                              </Link>
-                            </li>
-                          ))}
+                        {subCategoriesArr.map((subcategory) => (
+                          <li>
+                            <Link
+                              to={`${selectedCategorySlug}/${subcategory.slug}`}
+                              state={{
+                                subcategoryId: subcategory.id,
+                                categoryId: subcategory.category,
+                              }}
+                              key={subcategory.title}
+                              className=""
+                            >
+                              {subcategory.title}
+                            </Link>
+                          </li>
+                        ))}
                       </ul>
 
                       {filters.map((section) => (
@@ -303,26 +301,21 @@ export default function Category() {
                     role="list"
                     className="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200"
                   >
-                    {subCategoriesArr
-                      .filter(
-                        (subcategory) =>
-                          subcategory.category === selectedCategoryId
-                      )
-                      .map((subcategory) => (
-                        <li>
-                          <Link
-                            to={`/${selectedCategorySlug}/${subcategory.slug}`}
-                            state={{
-                              subcategoryId: subcategory.id,
-                              categoryId: subcategory.category,
-                            }}
-                            key={subcategory.title}
-                            className=""
-                          >
-                            {subcategory.title}
-                          </Link>
-                        </li>
-                      ))}
+                    {subCategoriesArr.map((subcategory) => (
+                      <li>
+                        <Link
+                          to={`/${selectedCategorySlug}/${subcategory.slug}`}
+                          state={{
+                            subcategoryId: subcategory.id,
+                            categoryId: subcategory.category,
+                          }}
+                          key={subcategory.title}
+                          className=""
+                        >
+                          {subcategory.title}
+                        </Link>
+                      </li>
+                    ))}
                   </ul>
 
                   {filters.map((section) => (
@@ -386,7 +379,7 @@ export default function Category() {
 
                 {/* Product grid */}
                 <div className="lg:col-span-3">
-                  <Products selectedSubcategoryId={selectedSubcategoryId} />
+                  <Products />
                 </div>
               </div>
             </section>
