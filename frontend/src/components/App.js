@@ -31,17 +31,21 @@ export default function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path=":category/:subcategory/" element={<Category />} />
+            <Route path=":category">
+              <Route index element={<Category />} />
+              <Route path=":subcategory/" element={<Category />} />
+              <Route path=":subcategory/:productSlug" element={<Product />} />
+            </Route>
 
-            <Route
-              path=":category/:subcategory/:productSlug"
-              element={<Product />}
-            />
             <Route path="profile" element={<Profile />} />
             <Route path="cart" element={<Cart />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
+          {/* <Route
+              path=":category/:subcategory/:productSlug"
+              element={<Product />}
+            /> */}
           {/* <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path={`/category/:subcategoryName`} element={<Category />} />
