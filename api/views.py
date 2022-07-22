@@ -33,3 +33,9 @@ def getProducts(request):
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True,context={'request': request})
     return Response(serializer.data)
+
+@api_view(['GET'])
+def getProductsBySubCategory(request, slug):
+    products = Product.objects.filter(subcategory__slug = slug)
+    serializer = ProductSerializer(products, many=True, context={'request': request})
+    return Response(serializer.data)

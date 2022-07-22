@@ -30,10 +30,10 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class SubCategorySerializer(serializers.ModelSerializer):
     imageURL = serializers.SerializerMethodField('get_img_url')
-
+    categorySlug = serializers.SerializerMethodField('getCategorySlug')
     class Meta:
         model = SubCategory
-        fields = ('category','id', 'title', 'image', 'imageURL', 'slug')
+        fields = ('category','categorySlug','id', 'title', 'image', 'imageURL', 'slug')
 
     def get_img_url(self, obj):
         # if obj.image:
@@ -46,15 +46,34 @@ class SubCategorySerializer(serializers.ModelSerializer):
             return obj.image.url
         else:
             return ''
+    def getCategorySlug(self, obj):
+        category = Category.objects.filter(slug = obj.category).values('slug')
+        categorySlug = ''
+        for element in category:
+            key, value = list(element.items())[0]
+            # categorySlug.join(el.values())
+            categorySlug = value
+        return categorySlug
 
 
 class ProductSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField('getProductImages')
+    subcategorySlug = serializers.SerializerMethodField('getSubCategorySlug')
     class Meta:
         model = Product
         # fields = ('subcategory','title', 'image', 'imageAlt', 'sizes', 'inStock', 'gender', 'description', 'sell_price', 'slug')
         fields = '__all__'
     
+    def getSubCategorySlug(self, obj):
+        subcategory = SubCategory.objects.filter(slug = obj.subcategory).values('slug')
+        subcategorySlug = ''
+        for element in subcategory:
+            key, value = list(element.items())[0]
+
+            subcategorySlug = value
+        
+        return subcategorySlug
+
     def getProductImages(self, obj):
         images = ProductImage.objects.filter(product=obj).values('image', 'imageAlt')
         return images

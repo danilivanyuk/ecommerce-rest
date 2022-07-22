@@ -5,7 +5,7 @@ const initialState = {
   subCategoriesArr: [],
   filteredSubCategoriesArr: [],
   isLoading: true,
-  isSuccess: false,
+  isSubCategorySuccess: false,
   isError: true,
 };
 let getSubCategories_url = `/api/getSubCategories/`;
@@ -15,7 +15,6 @@ export const getSubCategories = createAsyncThunk(
   async (thunkAPI) => {
     try {
       const resp = await axios(getSubCategories_url);
-      console.log("somecall");
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("something went wrong");
@@ -40,8 +39,7 @@ const subCategoriesSlice = createSlice({
     },
     [getSubCategories.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
-      console.log(action.payload);
+      state.isSubCategorySuccess = true;
       state.subCategoriesArr = action.payload;
     },
     [getSubCategories.rejected]: (state, action) => {

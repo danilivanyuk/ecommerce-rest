@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getCategories } from "../features/categoriesSlice";
+
 import { getSubCategories } from "../features/subCategoriesSlice";
 import { getProducts } from "../features/productsSlice";
 

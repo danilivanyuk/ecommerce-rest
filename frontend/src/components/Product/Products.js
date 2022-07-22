@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
+import { filterProductsBySubCategory } from "../../features/productsSlice";
 
 const products = [
   {
@@ -56,10 +58,48 @@ const products = [
   // More products...
 ];
 
-export default function Products(props) {
+export default function Products() {
   const URLparams = useParams();
-  const { selectedSubcategoryId } = props;
-  const { productsArr, isLoading } = useSelector((store) => store.products);
+  let { isLoading } = useSelector((store) => store.products);
+
+  let subCategoriesArr = useSelector((store) =>
+    store.subcategories.subCategoriesArr.filter(
+      (subcategory) => subcategory.categorySlug === URLparams.category
+    )
+  );
+
+  let subCategoriesSlugs = subCategoriesArr.map(
+    (subcategory) => subcategory.slug
+  );
+  console.log(subCategoriesSlugs[0]);
+  let productsArr = useSelector((store) =>
+    store.products.productsArr.filter((product) =>
+      product.subcategorySlug.includes(subCategoriesSlugs.map((slug) => slug))
+    )
+  );
+  // let productsArr = URLparams.subcategory
+  //   ? useSelector((store) =>
+  //       store.products.productsArr.filter(
+  //         (product) => product.subcategorySlug === URLparams.subcategory
+  //       )
+  //     )
+  //   : useSelector((store) =>
+  //       store.products.productsArr.filter((product) =>
+  //         product.subcategorySlug.includes(subCategoriesSlugs)
+  //       )
+  //     );
+
+  console.log(productsArr);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // if (isProductsSuccess) {
+    //   dispatch(filterProductsBySubCategory(URLparams.subcategory));
+    // }
+  }, [URLparams]);
+
+  console.log(productsArr);
+  // productsArr.map((product) => console.log(product.subcategorySlug[0]));
   if (isLoading) {
     return (
       <div>
@@ -70,42 +110,38 @@ export default function Products(props) {
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {productsArr
-            .filter((product) => product.subcategory === selectedSubcategoryId)
-            .map((product) => (
-              <Link
-                key={product.id}
-                to={product.slug}
-                // to={`/Shoes/Trainers/${product.slug}`}
-                state={product}
-                className="group relative"
-              >
-                {product.slug}
-                <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                  <img
-                    src={product.image}
-                    alt={product.imageAlt}
-                    className="w-full h-full object-center object-cover lg:w-full lg:h-full"
-                  />
-                </div>
-                <div className="mt-4 flex justify-between">
-                  <div>
-                    <h3 className="text-sm text-gray-700">
-                      <a href={product.slug}>
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {product.title}
-                      </a>
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      {product.color}
+          {productsArr.map((product) => (
+            <Link
+              key={product.id}
+              to={product.slug}
+              // to={`/Shoes/Trainers/${product.slug}`}
+              state={product}
+              className="group relative"
+            >
+              {product.slug}
+              <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                <img
+                  src={product.image}
+                  alt={product.imageAlt}
+                  className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+                />
+              </div>
+              <div className="mt-4 flex justify-between">
+                <div>
+                  <h3 className="text-sm text-gray-700">
+                    <p>
+                      <span aria-hidden="true" className="absolute inset-0" />
+                      {product.title}
                     </p>
-                  </div>
-                  <p className="text-sm font-medium text-gray-900">
-                    {product.sell_price}
-                  </p>
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                 </div>
-              </Link>
-            ))}
+                <p className="text-sm font-medium text-gray-900">
+                  {product.sell_price}
+                </p>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     );

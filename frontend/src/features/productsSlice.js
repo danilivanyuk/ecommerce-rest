@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   productsArr: [],
   isLoading: true,
+  isProductsSuccess: false,
   filteredProductsArr: [],
 };
 
@@ -23,9 +24,9 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     filterProductsBySubCategory: (state, action) => {
-      subcategoryId = action.payload;
-      state.filteredProductsArr = state.productsArr.filter(
-        (product) => product.subcategory === subcategoryId
+      let subcategorySlug = action.payload;
+      state.productsArr = state.productsArr.filter(
+        (product) => product.subcategorySlug === subcategorySlug
       );
     },
   },
@@ -35,6 +36,7 @@ const productsSlice = createSlice({
     },
     [getProducts.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.isProductsSuccess = true;
       state.productsArr = action.payload;
     },
     [getProducts.rejected]: (state, action) => {
@@ -42,5 +44,7 @@ const productsSlice = createSlice({
     },
   },
 });
+
+export const { filterProductsBySubCategory } = productsSlice.actions;
 
 export default productsSlice.reducer;

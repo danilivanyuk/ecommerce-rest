@@ -56,31 +56,16 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 export default function Category() {
-  const { categoriesArr, isLoading } = useSelector((store) => store.categories);
-  const { subCategoriesArr, isSuccess, filteredSubCategoriesArr } = useSelector(
-    (store) => store.subcategories
-  );
   let URLparams = useParams();
-  const selectedSubcategorySlug = URLparams.subcategory;
   const selectedCategorySlug = URLparams.category;
+  const { isLoading } = useSelector((store) => store.subcategories);
+  const subCategoriesArr = useSelector((store) =>
+    store.subcategories.subCategoriesArr.filter(
+      (subcategory) => subcategory.categorySlug === selectedCategorySlug
+    )
+  );
+
   const dispatch = useDispatch();
-  let selectedCategory = [];
-
-  useEffect(() => {
-    // dispatch(filterSubcategoriesByCategory(selectedCategory.id));
-    if (!isLoading) {
-      getCategoryBySlug(selectedCategorySlug);
-    }
-    if (isSuccess) {
-      dispatch(filterSubcategoriesByCategory(selectedCategory.id));
-
-      //   filterSubcategories();
-    }
-  }, [isSuccess]);
-
-  function getCategoryBySlug(slug) {
-    selectedCategory = categoriesArr.find((category) => category.slug === slug);
-  }
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   if (isLoading) {
@@ -309,7 +294,7 @@ export default function Category() {
                             subcategoryId: subcategory.id,
                             categoryId: subcategory.category,
                           }}
-                          key={subcategory.title}
+                          key={subcategory.id}
                           className=""
                         >
                           {subcategory.title}
