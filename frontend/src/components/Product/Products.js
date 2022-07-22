@@ -72,22 +72,22 @@ export default function Products() {
     (subcategory) => subcategory.slug
   );
   console.log(subCategoriesSlugs[0]);
-  let productsArr = useSelector((store) =>
-    store.products.productsArr.filter((product) =>
-      product.subcategorySlug.includes(subCategoriesSlugs.map((slug) => slug))
-    )
-  );
-  // let productsArr = URLparams.subcategory
-  //   ? useSelector((store) =>
-  //       store.products.productsArr.filter(
-  //         (product) => product.subcategorySlug === URLparams.subcategory
-  //       )
-  //     )
-  //   : useSelector((store) =>
-  //       store.products.productsArr.filter((product) =>
-  //         product.subcategorySlug.includes(subCategoriesSlugs)
-  //       )
-  //     );
+  // let productsArr = useSelector((store) =>
+  //   store.products.productsArr.filter((product) =>
+  //     product.subcategorySlug.includes(subCategoriesSlugs.map((slug) => slug))
+  //   )
+  // );
+  let productsArr = URLparams.subcategory
+    ? useSelector((store) =>
+        store.products.productsArr.filter(
+          (product) => product.subcategorySlug === URLparams.subcategory
+        )
+      )
+    : useSelector((store) =>
+        store.products.productsArr.filter((product) =>
+          product.subcategorySlug.includes(subCategoriesSlugs)
+        )
+      );
 
   console.log(productsArr);
 
