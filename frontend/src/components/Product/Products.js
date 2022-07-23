@@ -71,12 +71,7 @@ export default function Products() {
   let subCategoriesSlugs = subCategoriesArr.map(
     (subcategory) => subcategory.slug
   );
-  console.log(subCategoriesSlugs[0]);
-  // let productsArr = useSelector((store) =>
-  //   store.products.productsArr.filter((product) =>
-  //     product.subcategorySlug.includes(subCategoriesSlugs.map((slug) => slug))
-  //   )
-  // );
+
   let productsArr = URLparams.subcategory
     ? useSelector((store) =>
         store.products.productsArr.filter(
@@ -85,21 +80,10 @@ export default function Products() {
       )
     : useSelector((store) =>
         store.products.productsArr.filter((product) =>
-          product.subcategorySlug.includes(subCategoriesSlugs)
+          subCategoriesSlugs.includes(product.subcategorySlug)
         )
       );
 
-  console.log(productsArr);
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    // if (isProductsSuccess) {
-    //   dispatch(filterProductsBySubCategory(URLparams.subcategory));
-    // }
-  }, [URLparams]);
-
-  console.log(productsArr);
-  // productsArr.map((product) => console.log(product.subcategorySlug[0]));
   if (isLoading) {
     return (
       <div>
@@ -121,7 +105,7 @@ export default function Products() {
               {product.slug}
               <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
                 <img
-                  src={product.image}
+                  src={`/static/images/${product.images[0].image}`}
                   alt={product.imageAlt}
                   className="w-full h-full object-center object-cover lg:w-full lg:h-full"
                 />
