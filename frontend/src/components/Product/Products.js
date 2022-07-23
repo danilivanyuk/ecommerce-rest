@@ -97,7 +97,11 @@ export default function Products() {
           {productsArr.map((product) => (
             <Link
               key={product.id}
-              to={product.slug}
+              to={
+                URLparams.subcategory
+                  ? product.slug
+                  : `${product.subcategorySlug}/${product.slug}`
+              }
               // to={`/Shoes/Trainers/${product.slug}`}
               state={product}
               className="group relative"
