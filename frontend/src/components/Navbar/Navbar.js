@@ -122,32 +122,38 @@ export default function Navbar() {
                             (subcategory) =>
                               subcategory.category === category.id
                           )
+
                           .map((subcategory) => (
-                            <div key={subcategory.title}>
+                            <Link
+                              to={category.slug + "/" + subcategory.slug}
+                              key={subcategory.title}
+                            >
                               <p
-                                id={`${category.id}-${subcategory.id}-heading-mobile`}
+                                id={`${subcategory.title}-heading`}
                                 className="font-medium text-gray-900"
                               >
                                 {subcategory.title}
                               </p>
                               <ul
                                 role="list"
-                                aria-labelledby={`${category.id}-${subcategory.id}-heading-mobile`}
-                                className="mt-6 flex flex-col space-y-6"
-                              >
-                                {/* {section.items.map((item) => (
-                                <li key={item.title} className="flow-root">
-                                  <a
-                                    // href={item.href}
-                                    className="-m-2 p-2 block text-gray-500"
-                                  >
-                                    {item.title}
-                                  </a>
-                                </li>
-                              ))} */}
-                              </ul>
-                            </div>
+                                aria-labelledby={`${subcategory.title}-heading`}
+                                className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+                              ></ul>
+                            </Link>
                           ))}
+                        <Link to={category.slug}>
+                          <p
+                            // id={`${.title}-heading`}
+                            className="font-medium text-gray-900"
+                          >
+                            View all
+                          </p>
+                          <ul
+                            role="list"
+                            aria-labelledby={`${category.title}-heading`}
+                            className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+                          ></ul>
+                        </Link>
                       </Tab.Panel>
                     ))}
                   </Tab.Panels>
@@ -305,7 +311,14 @@ export default function Navbar() {
                                             subcategory.category === category.id
                                         )
                                         .map((subcategory) => (
-                                          <div key={subcategory.title}>
+                                          <Link
+                                            to={
+                                              category.slug +
+                                              "/" +
+                                              subcategory.slug
+                                            }
+                                            key={subcategory.title}
+                                          >
                                             <p
                                               id={`${subcategory.title}-heading`}
                                               className="font-medium text-gray-900"
@@ -317,8 +330,21 @@ export default function Navbar() {
                                               aria-labelledby={`${subcategory.title}-heading`}
                                               className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
                                             ></ul>
-                                          </div>
+                                          </Link>
                                         ))}
+                                      <Link to={category.slug}>
+                                        <p
+                                          // id={`${category.title}-heading`}
+                                          className="font-medium text-gray-900"
+                                        >
+                                          View all
+                                        </p>
+                                        <ul
+                                          role="list"
+                                          aria-labelledby={`${category.title}-heading`}
+                                          className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+                                        ></ul>
+                                      </Link>
                                     </div>
                                   </div>
                                 </div>
