@@ -1,1 +1,1 @@
-web: LANG=en_US gunicorn foodmenu.wsgi --log-file -
+web: LANG=en_US gunicorn core.wsgi --log-file -
