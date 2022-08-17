@@ -67,7 +67,9 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, '')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,31 +90,22 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     
-    'default' : {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ecommerce_test',
-        'USER': 'postgres',
-        'PASSWORD': 'Dd87772331571',
-        'HOST': 'localhost',
-        'PORT': '5432',
-
-    }
-    # 'default': {
-
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-    #     'NAME': '<db_name>',
-
-    #     'USER': '<db_username>',
-
-    #     'PASSWORD': '<password>',
-
-    #     'HOST': '<db_hostname_or_ip>',
-
-    #     'PORT': '<db_port>',
+    # 'default' : {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'ecommerce_test',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'Dd87772331571',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
 
     # }
 
+    # For easier deploy switched to sqlite3
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+    
 }
 
 
@@ -166,6 +159,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://localhost:3001",
     "http://127.0.0.1", 
+    "https://ecommerce--rest.herokuapp.com/",
 ]
 
 SITE_ID = 1
