@@ -159,7 +159,7 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://localhost:3001",
     "http://127.0.0.1", 
-    "https://ecommerce--rest.herokuapp.com",
+    "https://ecommerce-rest-test.herokuapp.com",
 ]
 
 SITE_ID = 1
