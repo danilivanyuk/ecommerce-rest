@@ -58,12 +58,14 @@ function classNames(...classes) {
 export default function Category() {
   let URLparams = useParams();
   const selectedCategorySlug = URLparams.category;
+  const selectedSubCategorySlug = URLparams.subcategory;
   const { isLoading } = useSelector((store) => store.subcategories);
   const subCategoriesArr = useSelector((store) =>
     store.subcategories.subCategoriesArr.filter(
       (subcategory) => subcategory.categorySlug === selectedCategorySlug
     )
   );
+  console.log(selectedCategorySlug);
 
   const dispatch = useDispatch();
 
@@ -213,7 +215,7 @@ export default function Category() {
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="relative flex items-baseline justify-between pt-24 pb-6 border-b border-gray-200">
               <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
-                Category Name
+                {selectedSubCategorySlug}
               </h1>
 
               <div className="flex items-center">
