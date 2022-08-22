@@ -102,7 +102,6 @@ export default function Products() {
                   ? product.slug
                   : `${product.subcategorySlug}/${product.slug}`
               }
-              // to={`/Shoes/Trainers/${product.slug}`}
               state={product}
               className="group relative"
             >

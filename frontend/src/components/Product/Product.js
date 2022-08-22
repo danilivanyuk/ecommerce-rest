@@ -69,6 +69,18 @@ export default function Product() {
       (product) => product.slug === URLparams.productSlug
     )
   );
+  const selectedSubcategory = useSelector((store) =>
+    store.subcategories.subCategoriesArr.find(
+      (subcategory) => subcategory.slug === URLparams["subcategory"]
+    )
+  );
+
+  const selectedCategory = useSelector((store) =>
+    store.categories.categoriesArr.find(
+      (category) => category.slug === URLparams["category"]
+    )
+  );
+
   const { isLoading, isProductsSuccess } = useSelector(
     (store) => store.products
   );
@@ -116,7 +128,7 @@ export default function Product() {
                     href={`/${URLparams["category"]}`}
                     className="mr-2 text-sm font-medium text-gray-900"
                   >
-                    {URLparams["category"]}
+                    {selectedCategory.title}
                   </a>
                   <svg
                     width={16}
@@ -133,7 +145,7 @@ export default function Product() {
                     href={`/${URLparams["category"]}/${URLparams["subcategory"]}`}
                     className="mr-2 text-sm font-medium text-gray-900"
                   >
-                    {URLparams["subcategory"]}
+                    {selectedSubcategory.title}
                   </a>
                   <svg
                     width={16}
