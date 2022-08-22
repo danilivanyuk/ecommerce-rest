@@ -47,7 +47,7 @@ class SubCategorySerializer(serializers.ModelSerializer):
         else:
             return ''
     def getCategorySlug(self, obj):
-        category = Category.objects.filter(slug = obj.category).values('slug')
+        category = Category.objects.filter(title = obj.category).values('slug')
         categorySlug = ''
         for element in category:
             key, value = list(element.items())[0]
@@ -65,7 +65,7 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def getSubCategorySlug(self, obj):
-        subcategory = SubCategory.objects.filter(slug = obj.subcategory).values('slug')
+        subcategory = SubCategory.objects.filter(title = obj.subcategory).values('slug')
         subcategorySlug = ''
         for element in subcategory:
             key, value = list(element.items())[0]
