@@ -100,12 +100,22 @@ DATABASES = {
     #     'PORT': '5432',
 
     # }
+    # Postgresql for heroku
+    'default' : {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dbudfsuok0pp25',
+        'USER': 'imjuirhoibdqds',
+        'PASSWORD': 'e2b3b61310482a933592e68cb090dadfed16575e71b64032527edfda9591cfb1',
+        'HOST': 'ec2-54-228-218-84.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
 
-    # For easier deploy switched to sqlite3
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+    # # For easier deploy switched to sqlite3
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     
 }
 
