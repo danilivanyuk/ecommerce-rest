@@ -3,3 +3,4 @@ settings.py
 navbarcopy.js
 static/images
 core/settings.py
+core/__pycache__/settings.cpython-38.pyc
