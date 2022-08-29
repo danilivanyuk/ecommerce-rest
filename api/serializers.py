@@ -1,5 +1,6 @@
 from cmath import log
 from distutils.log import Log
+from re import search
 from django.db.models import fields
 # from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
@@ -26,7 +27,10 @@ class CategorySerializer(serializers.ModelSerializer):
         else:
             return ''
 
-   
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = ('__all__')
 
 class SubCategorySerializer(serializers.ModelSerializer):
     imageURL = serializers.SerializerMethodField('get_img_url')
