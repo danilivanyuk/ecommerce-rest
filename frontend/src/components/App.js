@@ -6,6 +6,7 @@ import { getCategories } from "../features/categoriesSlice";
 
 import { getSubCategories } from "../features/subCategoriesSlice";
 import { getProducts } from "../features/productsSlice";
+import { getProfile } from "../features/profileSlice";
 
 import Homepage from "./Homepage/Homepage";
 import Navbar from "./Navbar/Navbar";
@@ -23,6 +24,7 @@ export default function App() {
     dispatch(getCategories());
     dispatch(getSubCategories());
     dispatch(getProducts());
+    dispatch(getProfile());
   }, []);
 
   return (
@@ -32,14 +34,15 @@ export default function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path=":category">
+            <Route path="/catalog/:category">
               <Route index element={<Category />} />
               <Route path=":subcategory/" element={<Category />} />
               <Route path=":subcategory/:productSlug" element={<Product />} />
+              {/* <Route path="*" element={<NotFound />} /> */}
             </Route>
 
-            <Route path="profile" element={<Profile />} />
-            <Route path="cart" element={<Cart />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/cart" element={<Cart />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>

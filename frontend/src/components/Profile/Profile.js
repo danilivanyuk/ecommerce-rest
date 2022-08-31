@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Order from "./Order";
+import { useDispatch, useSelector } from "react-redux";
+import { getCustomerOrders } from "../../features/profileSlice";
 
 export default function Profile() {
+  const { customerInfo } = useSelector((store) => store.profile);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCustomerOrders());
+  }, []);
+
   return (
     <div className="bg-gray-100 ">
       <div className="max-w-7xl md:w-2/3 xl:w-1/2 pt-6 mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,9 +26,15 @@ export default function Profile() {
             />
           </div>
           <div>
-            <p className="text-gray-800 font-semibold text-xl">Danil Ivanyuk</p>
-            <p className="text-gray-600">
-              Total amount of orders: <span className="text-gray-800">15</span>
+            <p className="text-gray-800 font-semibold text-xl">
+              {customerInfo.name}
+            </p>
+            <p className="text-gray-800 font-semibold text-m">
+              {customerInfo.phone}
+            </p>
+            <p className="text-gray-800 font-semibold text-m">
+              Adress: {customerInfo.city}, {customerInfo.street},{" "}
+              {customerInfo.house}, {customerInfo.appartament}
             </p>
           </div>
         </div>

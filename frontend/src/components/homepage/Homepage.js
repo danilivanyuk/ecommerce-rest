@@ -32,7 +32,7 @@ export default function Homepage() {
                   .filter((subcategory) => subcategory.category === category.id)
                   .map((subcategory) => (
                     <Link
-                      to={category.slug + "/" + subcategory.slug}
+                      to={"catalog/" + category.slug + "/" + subcategory.slug}
                       state={{
                         subcategoryId: subcategory.id,
                         categoryId: subcategory.category,

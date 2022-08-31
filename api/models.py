@@ -18,11 +18,16 @@ from django.core.files import File
 from django.utils.translation import gettext_lazy as _
 from numpy import product
 
+
 class Customer(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200)
     phone = models.CharField(max_length=200)
+    city = models.CharField(max_length=200, null=True)
+    street = models.CharField(max_length=200, null=True)
+    house = models.CharField(max_length=200, null=True)
+    appartament = models.CharField(max_length=200, null=True)
 
     def __str__(self):
         return self.name
@@ -36,7 +41,7 @@ COLOR_CHOICES = [
     ("White", 'White'),
     ("Gray", 'Gray'),
     ("Black", 'Black'),
-    
+
 ]
 CLOTH_SIZE = [
     ("XS", 'XS'),
@@ -84,9 +89,11 @@ class Category(models.Model):
         unique=False,
         blank=False,
         verbose_name=_("category safe URL"),
-        help_text=_("format: required, letters, numbers, underscore, or hyphens"),
+        help_text=_(
+            "format: required, letters, numbers, underscore, or hyphens"),
     )
-    image = models.ImageField(blank=True, null=True, upload_to='categories_images/')
+    image = models.ImageField(blank=True, null=True,
+                              upload_to='categories_images/')
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Created: ")
     updated_at = models.DateTimeField(
@@ -105,7 +112,6 @@ class Category(models.Model):
     #         # set self.image to new_image
     #         self.image = new_image
 
-
     class Meta:
         ordering = ['-title']
         verbose_name = 'Category'
@@ -121,11 +127,13 @@ class SubCategory(models.Model):
         unique=False,
         blank=False,
         verbose_name=_("subcategory safe URL"),
-        help_text=_("format: required, letters, numbers, underscore, or hyphens")
+        help_text=_(
+            "format: required, letters, numbers, underscore, or hyphens")
     )
     title = models.CharField(
         max_length=100, verbose_name="SubCategory Title: ")
-    image = models.ImageField(blank=True, null=True, upload_to='subcategories_images/')
+    image = models.ImageField(blank=True, null=True,
+                              upload_to='subcategories_images/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -144,26 +152,22 @@ class SubCategory(models.Model):
         verbose_name_plural = "Subcategories"
 
 
-
-
-
-
 class Product(models.Model):
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
-    
+
     title = models.CharField(max_length=255,
-        unique=False,
-        null=False,
-        blank=False,
-        verbose_name=_("product name"),
-        help_text=_("format: required, max-255"),)
+                             unique=False,
+                             null=False,
+                             blank=False,
+                             verbose_name=_("product name"),
+                             help_text=_("format: required, max-255"),)
     # image = models.ImageField(blank=True, null=True, upload_to='products_images/')
     # imageAlt = models.CharField(blank=True, max_length=60)
-    colors = MultiSelectField(null=True, choices = COLOR_CHOICES, max_length=20)
-    sizes = MultiSelectField(null=True,choices = CLOTH_SIZE, max_length=20)
+    colors = MultiSelectField(null=True, choices=COLOR_CHOICES, max_length=20)
+    sizes = MultiSelectField(null=True, choices=CLOTH_SIZE, max_length=20)
     inStock = models.BooleanField(default=True,
-        verbose_name=_("product visibility"),
-        help_text=_("format: true=product visible"),)
+                                  verbose_name=_("product visibility"),
+                                  help_text=_("format: true=product visible"),)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=20)
     description = models.TextField(
         unique=False,
@@ -194,7 +198,8 @@ class Product(models.Model):
         null=False,
         blank=False,
         verbose_name=_("product safe URL"),
-        help_text=_("format: required, letters, numbers, underscores or hyphens"),
+        help_text=_(
+            "format: required, letters, numbers, underscores or hyphens"),
     )
 
     created_at = models.DateTimeField(
@@ -216,7 +221,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     # def save(self, *args, **kwargs):
     #     if self.image:
     #         new_image = compress(self.image)
@@ -226,10 +231,10 @@ class Product(models.Model):
     #     return super().save(*args, **kwargs)
 
 
-
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    image = models.ImageField(blank=True, null=True, upload_to='products_images/')
+    image = models.ImageField(blank=True, null=True,
+                              upload_to='products_images/')
     imageAlt = models.CharField(blank=True, max_length=60)
 
     def __str__(self):
@@ -243,5 +248,31 @@ class ProductImage(models.Model):
         return super().save(*args, **kwargs)
 
 
+class Order(models.Model):
+    customer = models.ForeignKey(
+        Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    ordered_date = models.DateTimeField(auto_now_add=True)
+    complete = models.BooleanField(default=False)
+    transaction_id = models.CharField(max_length=200, null=True)
+
+    # transaction_id = datetime.now().timestamp()
+    def __str__(self):
+        return str(self.transaction_id)
+
+    class Meta:
+        ordering = ['-ordered_date']
 
 
+class OrderProduct(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
+    size = models.CharField(choices=CLOTH_SIZE, blank=True,
+                            null=True, verbose_name='Размеры', max_length=50)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.order)
+
+    class Meta:
+        ordering = ['-product']

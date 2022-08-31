@@ -135,7 +135,7 @@ export default function Category() {
                         {subCategoriesArr.map((subcategory) => (
                           <li>
                             <Link
-                              to={`${selectedCategorySlug}/${subcategory.slug}`}
+                              to={`catalog/${selectedCategorySlug}/${subcategory.slug}`}
                               state={{
                                 subcategoryId: subcategory.id,
                                 categoryId: subcategory.category,
@@ -293,7 +293,7 @@ export default function Category() {
                     {subCategoriesArr.map((subcategory) => (
                       <li>
                         <Link
-                          to={`/${selectedCategorySlug}/${subcategory.slug}`}
+                          to={`catalog/${selectedCategorySlug}/${subcategory.slug}`}
                           state={{
                             subcategoryId: subcategory.id,
                             categoryId: subcategory.category,

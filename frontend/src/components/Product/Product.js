@@ -64,6 +64,9 @@ function classNames(...classes) {
 export default function Product() {
   const URLparams = useParams();
   let currentImage;
+  const { isLoading, isProductsSuccess } = useSelector(
+    (store) => store.products
+  );
   const selectedProduct = useSelector((store) =>
     store.products.productsArr.find(
       (product) => product.slug === URLparams.productSlug
@@ -81,9 +84,6 @@ export default function Product() {
     )
   );
 
-  const { isLoading, isProductsSuccess } = useSelector(
-    (store) => store.products
-  );
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   useEffect(() => {
@@ -104,8 +104,7 @@ export default function Product() {
       )
     : [];
 
-  console.log();
-
+  console.log("selected: " + isLoading, isProductsSuccess);
   if (isLoading) {
     return (
       <div>
@@ -125,7 +124,7 @@ export default function Product() {
               <li>
                 <div className="flex items-center">
                   <a
-                    href={`/${URLparams["category"]}`}
+                    href={`catalog/${URLparams["category"]}`}
                     className="mr-2 text-sm font-medium text-gray-900"
                   >
                     {selectedCategory.title}
@@ -142,7 +141,7 @@ export default function Product() {
                     <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
                   </svg>
                   <a
-                    href={`/${URLparams["category"]}/${URLparams["subcategory"]}`}
+                    href={`catalog/${URLparams["category"]}/${URLparams["subcategory"]}`}
                     className="mr-2 text-sm font-medium text-gray-900"
                   >
                     {selectedSubcategory.title}

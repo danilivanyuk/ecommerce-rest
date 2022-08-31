@@ -21,27 +21,41 @@ def getProfile(request):
     serializer = ProfileSerializer(profile)
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+def getCustomerOrders(request):
+    orders = Order.objects.filter(customer=request.user.id)
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data)
+
+
 @api_view(['GET'])
 def getCategories(request):
     categories = Category.objects.all()
-    serializer = CategorySerializer(categories, many=True,context={'request': request})
+    serializer = CategorySerializer(
+        categories, many=True, context={'request': request})
     return Response(serializer.data)
 
 
 @api_view(['GET'])
 def getSubCategories(request):
     subCategories = SubCategory.objects.all()
-    serializer = SubCategorySerializer(subCategories, many=True,context={'request': request})
+    serializer = SubCategorySerializer(
+        subCategories, many=True, context={'request': request})
     return Response(serializer.data)
+
 
 @api_view(['GET'])
 def getProducts(request):
     products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True,context={'request': request})
+    serializer = ProductSerializer(
+        products, many=True, context={'request': request})
     return Response(serializer.data)
+
 
 @api_view(['GET'])
 def getProductsBySubCategory(request, slug):
-    products = Product.objects.filter(subcategory__slug = slug)
-    serializer = ProductSerializer(products, many=True, context={'request': request})
+    products = Product.objects.filter(subcategory__slug=slug)
+    serializer = ProductSerializer(
+        products, many=True, context={'request': request})
     return Response(serializer.data)
