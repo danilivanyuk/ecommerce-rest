@@ -27,12 +27,6 @@ class CategorySerializer(serializers.ModelSerializer):
             return ''
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
-        fields = ('__all__')
-
-
 class SubCategorySerializer(serializers.ModelSerializer):
     imageURL = serializers.SerializerMethodField('get_img_url')
     categorySlug = serializers.SerializerMethodField('getCategorySlug')
