@@ -7,6 +7,12 @@ from rest_framework import serializers
 from .models import *
 
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = '__all__'
+
+
 class CategorySerializer(serializers.ModelSerializer):
     imageURL = serializers.SerializerMethodField('get_img_url')
 

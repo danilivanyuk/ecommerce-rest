@@ -20,6 +20,9 @@ export default function Order() {
               <p className="text-gray-600 text-sm sm:text-base">
                 Ordered: {order.ordered_date}
               </p>
+              <p className="text-gray-600 text-sm sm:text-base">
+                Ordered: {order.ordered_date}
+              </p>
             </div>
             <div className="flex items-center mt-2 sm:mt-0">
               {/* <button className="inline-flex justify-center w-full py-2 mr-4 sm:mr-2 sm:mr-4 px-4 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
