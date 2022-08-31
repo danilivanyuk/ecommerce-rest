@@ -16,6 +16,12 @@ from .models import *
 
 
 @api_view(['GET'])
+def getProfile(request):
+    profile = Customer.objects.get(id=request.user.id)
+    serializer = ProfileSerializer(profile)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def getCategories(request):
     categories = Category.objects.all()
     serializer = CategorySerializer(

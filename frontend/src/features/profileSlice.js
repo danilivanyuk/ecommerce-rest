@@ -7,7 +7,7 @@ const initialState = {
   isLoading: true,
 };
 
-const getProfileUrl = `api/getProfile`;
+const getProfileUrl = `api/getProfile/`;
 
 export const getProfile = createAsyncThunk(getProfileUrl, async () => {
   try {
