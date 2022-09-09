@@ -14,14 +14,14 @@ export default function Order() {
         <div className="pb-4 border-b" key={order.transaction_id}>
           <div className="sm:flex justify-between border-b pb-4 mb-6">
             <div className="flex items-center justify-between w-full">
-              <p className="text-gray-900 text-md sm:text-xl mr-3 sm:mr-4">
+              <p className="text-gray-900 text-md sm:text-xl mr-3 sm:mr-4 w-1/3 text-left">
                 Order #{order.transaction_id}
               </p>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <p className="text-gray-600 text-sm sm:text-base w-1/3">
                 Ordered: {order.ordered_date}
               </p>
-              <p className="text-gray-600 text-sm sm:text-base">
-                Ordered: {order.ordered_date}
+              <p className="text-gray-600 text-sm sm:text-base w-1/3 text-right">
+                Delivered: {order.delivered_date}
               </p>
             </div>
             <div className="flex items-center mt-2 sm:mt-0">

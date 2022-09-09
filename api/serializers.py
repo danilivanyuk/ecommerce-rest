@@ -1,6 +1,7 @@
 from cmath import log
 from distutils.log import Log
 from re import search
+from wsgiref.handlers import format_date_time
 from django.db.models import fields
 # from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
@@ -66,27 +67,23 @@ class SubCategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField('getProductImages')
-    subcategorySlug = serializers.SerializerMethodField('getSubCategorySlug')
+    subcategoryInfo = serializers.SerializerMethodField('getSubCategoryInfo')
 
     class Meta:
         model = Product
-        # fields = ('subcategory','title', 'image', 'imageAlt', 'sizes', 'inStock', 'gender', 'description', 'sell_price', 'slug')
-        fields = '__all__'
+        fields = ('subcategoryInfo', 'title', 'images',
+                  'sizes', 'inStock', 'gender', 'description', 'sell_price', 'slug')
+        # fields = '__all__'
 
-    def getSubCategorySlug(self, obj):
+    def getSubCategoryInfo(self, obj):
         subcategory = SubCategory.objects.filter(
-            title=obj.subcategory).values('slug')
-        subcategorySlug = ''
-        for element in subcategory:
-            key, value = list(element.items())[0]
-
-            subcategorySlug = value
-
-        return subcategorySlug
+            title=obj.subcategory).values('title', 'slug')
+        print(subcategory)
+        return subcategory[0]
 
     def getProductImages(self, obj):
         images = ProductImage.objects.filter(
-            product=obj).values('image', 'imageAlt')
+            product=obj).values('image', 'imageAlt', 'color__title')
         return images
 
 
@@ -116,16 +113,29 @@ class CategorySubCategorySerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     orderProducts = serializers.SerializerMethodField('getOrderProducts')
+    ordered_date = serializers.SerializerMethodField('myOrderedDateFormat')
+    delivered_date = serializers.SerializerMethodField('myDeliveredDateFormat')
 
     class Meta:
         model = Order
-        fields = ('customer', 'ordered_date', 'orderProducts',
+        fields = ('customer', 'ordered_date', 'delivered_date', 'orderProducts',
                   'complete', 'transaction_id')
 
     def getOrderProducts(self, obj):
-        print(self)
         orderProducts = OrderProduct.objects.filter(order=obj).values(
             'product', 'quantity', 'size')
-        print(orderProducts)
 
         return orderProducts
+
+    def myOrderedDateFormat(self, obj):
+        formatedDate = obj.ordered_date.strftime("%Y-%m-%d %H:%M:%S")
+        print(formatedDate)
+        return formatedDate
+
+    def myDeliveredDateFormat(self, obj):
+        if (obj.delivered_date):
+            formatedDate = obj.delivered_date.strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            formatedDate = ''
+        print(formatedDate)
+        return formatedDate

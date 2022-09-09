@@ -54,7 +54,7 @@ const profileSlice = createSlice({
       state.isLoading = false;
       state.customerOrders = action.payload;
     },
-    [getCustomerOrders.rejected]: (state, action) => {
+    [getCustomerOrders.rejected]: (state) => {
       state.isLoading = false;
     },
   },

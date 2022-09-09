@@ -38,7 +38,6 @@ export default function App() {
               <Route index element={<Category />} />
               <Route path=":subcategory/" element={<Category />} />
               <Route path=":subcategory/:productSlug" element={<Product />} />
-              {/* <Route path="*" element={<NotFound />} /> */}
             </Route>
 
             <Route path="/profile" element={<Profile />} />

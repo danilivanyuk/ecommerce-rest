@@ -163,7 +163,6 @@ class Product(models.Model):
                              help_text=_("format: required, max-255"),)
     # image = models.ImageField(blank=True, null=True, upload_to='products_images/')
     # imageAlt = models.CharField(blank=True, max_length=60)
-    colors = MultiSelectField(null=True, choices=COLOR_CHOICES, max_length=20)
     sizes = MultiSelectField(null=True, choices=CLOTH_SIZE, max_length=20)
     inStock = models.BooleanField(default=True,
                                   verbose_name=_("product visibility"),
@@ -231,11 +230,20 @@ class Product(models.Model):
     #     return super().save(*args, **kwargs)
 
 
+class Colors(models.Model):
+    title = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.title
+
+
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.ImageField(blank=True, null=True,
                               upload_to='products_images/')
     imageAlt = models.CharField(blank=True, max_length=60)
+    color = models.ForeignKey(
+        Colors, on_delete=models.PROTECT, null=True, blank=True)
 
     def __str__(self):
         return str(self.product)
@@ -251,8 +259,11 @@ class ProductImage(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(
         Customer, on_delete=models.SET_NULL, blank=True, null=True)
-    ordered_date = models.DateTimeField(auto_now_add=True)
+    ordered_date = models.DateTimeField(
+        auto_now_add=True)
     complete = models.BooleanField(default=False)
+    delivered_date = models.DateTimeField(
+        auto_now_add=False, blank=True, null=True)
     transaction_id = models.CharField(max_length=200, null=True)
 
     # transaction_id = datetime.now().timestamp()

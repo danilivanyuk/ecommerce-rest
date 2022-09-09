@@ -57,17 +57,20 @@ function classNames(...classes) {
 }
 export default function Category() {
   let URLparams = useParams();
+  const { isLoading } = useSelector((store) => store.subcategories);
+
   const selectedCategorySlug = URLparams.category;
   const selectedSubCategorySlug = URLparams.subcategory;
-  const { isLoading } = useSelector((store) => store.subcategories);
   const subCategoriesArr = useSelector((store) =>
     store.subcategories.subCategoriesArr.filter(
       (subcategory) => subcategory.categorySlug === selectedCategorySlug
     )
   );
-  const subcategoryTitle = subCategoriesArr.find(
+  const selectedSubCategory = subCategoriesArr.find(
     (subcategory) => subcategory.slug === selectedSubCategorySlug
   );
+  console.log(subCategoriesArr);
+  // const { title } = subcategory;
 
   const dispatch = useDispatch();
 
@@ -135,7 +138,7 @@ export default function Category() {
                         {subCategoriesArr.map((subcategory) => (
                           <li>
                             <Link
-                              to={`catalog/${selectedCategorySlug}/${subcategory.slug}`}
+                              to={`/catalog/${selectedCategorySlug}/${subcategory.slug}`}
                               state={{
                                 subcategoryId: subcategory.id,
                                 categoryId: subcategory.category,
@@ -217,7 +220,9 @@ export default function Category() {
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="relative flex items-baseline justify-between pt-24 pb-6 border-b border-gray-200">
               <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
-                {subcategoryTitle.title}
+                {selectedSubCategory
+                  ? selectedSubCategory.title
+                  : selectedCategorySlug}
               </h1>
 
               <div className="flex items-center">
@@ -293,7 +298,7 @@ export default function Category() {
                     {subCategoriesArr.map((subcategory) => (
                       <li>
                         <Link
-                          to={`catalog/${selectedCategorySlug}/${subcategory.slug}`}
+                          to={`/catalog/${selectedCategorySlug}/${subcategory.slug}`}
                           state={{
                             subcategoryId: subcategory.id,
                             categoryId: subcategory.category,

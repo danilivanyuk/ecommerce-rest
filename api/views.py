@@ -24,9 +24,18 @@ def getProfile(request):
 
 @api_view(['GET'])
 def getCustomerOrders(request):
-    orders = Order.objects.filter(customer=request.user.id)
+    orders = Order.objects.filter(customer=request.user.id, complete=True)
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
+
+
+# @api_view(['GET'])
+# def getCart(request):
+#     customer = request.user.customer
+#     order, created = Order.objects.get_or_create(
+#         customer=customer, complete=False)
+#     serializer = ''
+#     return response(serializer.data)
 
 
 @api_view(['GET'])

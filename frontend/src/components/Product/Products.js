@@ -4,60 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { filterProductsBySubCategory } from "../../features/productsSlice";
 
-const products = [
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "$35",
-    color: "Black",
-  },
-  // More products...
-];
-
 export default function Products() {
   const URLparams = useParams();
   let { isLoading } = useSelector((store) => store.products);
@@ -75,12 +21,12 @@ export default function Products() {
   let productsArr = URLparams.subcategory
     ? useSelector((store) =>
         store.products.productsArr.filter(
-          (product) => product.subcategorySlug === URLparams.subcategory
+          (product) => product.subcategoryInfo.slug === URLparams.subcategory
         )
       )
     : useSelector((store) =>
         store.products.productsArr.filter((product) =>
-          subCategoriesSlugs.includes(product.subcategorySlug)
+          subCategoriesSlugs.includes(product.subcategoryInfo.slug)
         )
       );
 

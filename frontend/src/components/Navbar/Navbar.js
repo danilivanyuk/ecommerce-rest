@@ -125,7 +125,12 @@ export default function Navbar() {
 
                           .map((subcategory) => (
                             <Link
-                              to={category.slug + "/" + subcategory.slug}
+                              to={
+                                "catalog/" +
+                                category.slug +
+                                "/" +
+                                subcategory.slug
+                              }
                               key={subcategory.title}
                             >
                               <p
@@ -141,7 +146,7 @@ export default function Navbar() {
                               ></ul>
                             </Link>
                           ))}
-                        <Link to={category.slug}>
+                        <Link to={"catalog/" + category.slug}>
                           <p
                             // id={`${.title}-heading`}
                             className="font-medium text-gray-900"
@@ -313,6 +318,7 @@ export default function Navbar() {
                                         .map((subcategory) => (
                                           <Link
                                             to={
+                                              "catalog/" +
                                               category.slug +
                                               "/" +
                                               subcategory.slug
@@ -332,7 +338,7 @@ export default function Navbar() {
                                             ></ul>
                                           </Link>
                                         ))}
-                                      <Link to={category.slug}>
+                                      <Link to={"catalog/" + category.slug}>
                                         <p
                                           // id={`${category.title}-heading`}
                                           className="font-medium text-gray-900"
