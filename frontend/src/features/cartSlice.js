@@ -4,23 +4,51 @@ import axios from "axios";
 const initialState = {
   cartArr: [],
   isLoading: true,
+  cartCounter: 0,
 };
 
-const getCustomerCart = `api/getCart/`;
+const getCustomerCartUrl = `api/getCart/`;
 
-export const getCart = createAsyncThunk(getCustomerCart, async () => {
+export const getCart = createAsyncThunk(getCustomerCartUrl, async () => {
   try {
-    const resp = await axios(getCustomerCart);
+    const resp = await axios(getCustomerCartUrl);
     return resp.data;
   } catch {
     return thunkAPI.rejectWithValue("Something went wrong with products");
   }
 });
 
-const createSlice = createSlice({
+const updateCartUrl = `api/updateCart/`;
+export const updateCart = createAsyncThunk(updateCartUrl, async () => {
+  try {
+  } catch {
+    return thunkAPI.rejectWithValue("Something went wrong with products");
+  }
+});
+
+const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    addToCart: (state, action) => {},
+    removeProduct: (state, action) => {
+      state.cartArr = state.cartArr.filter((orderProduct) => {
+        return orderProduct.id !== action.payload;
+      });
+    },
+    addQuantity: (state, action) => {
+      let selectedItem = state.cartArr.find(
+        (cartItem) => cartItem.id === action.payload
+      );
+      selectedItem.quantity++;
+    },
+    removeQuantity: (state, action) => {
+      let selectedItem = state.cartArr.find(
+        (cartItem) => cartItem.id === action.payload
+      );
+      selectedItem.quantity--;
+    },
+  },
   extraReducers: {
     [getCart.pending]: (state) => {
       state.isLoading = true;
@@ -28,6 +56,7 @@ const createSlice = createSlice({
     [getCart.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.cartArr = action.payload;
+      state.cartCounter = action.payload.length;
     },
     [getCart.rejected]: (state) => {
       state.isLoading = false;
@@ -35,4 +64,7 @@ const createSlice = createSlice({
   },
 });
 
-export default createSlice.reducer;
+export const { addToCart, removeProduct, addQuantity, removeQuantity } =
+  cartSlice.actions;
+
+export default cartSlice.reducer;

@@ -7,6 +7,7 @@ import { getCategories } from "../features/categoriesSlice";
 import { getSubCategories } from "../features/subCategoriesSlice";
 import { getProducts } from "../features/productsSlice";
 import { getProfile } from "../features/profileSlice";
+import { getCart } from "../features/cartSlice";
 
 import Homepage from "./Homepage/Homepage";
 import Navbar from "./Navbar/Navbar";
@@ -25,6 +26,7 @@ export default function App() {
     dispatch(getSubCategories());
     dispatch(getProducts());
     dispatch(getProfile());
+    dispatch(getCart());
   }, []);
 
   return (

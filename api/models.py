@@ -268,7 +268,7 @@ class Order(models.Model):
 
     # transaction_id = datetime.now().timestamp()
     def __str__(self):
-        return str(self.transaction_id)
+        return str(self.customer)
 
     class Meta:
         ordering = ['-ordered_date']
@@ -277,6 +277,8 @@ class Order(models.Model):
 class OrderProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    color = models.ForeignKey(
+        Colors, on_delete=models.PROTECT)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     size = models.CharField(choices=CLOTH_SIZE, blank=True,
                             null=True, verbose_name='Размеры', max_length=50)

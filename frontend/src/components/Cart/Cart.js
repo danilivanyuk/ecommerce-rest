@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import CartProduct from "./CartProduct";
 import Checkout from "./Checkout";
 import OrderSummary from "./OrderSummary";
+import { useSelector } from "react-redux";
 
 export default function Cart() {
+  const { cartArr } = useSelector((store) => store.cart);
   const [checkout, setCheckout] = useState(false);
   return (
     <div className="bg-gray-100">
@@ -12,7 +14,9 @@ export default function Cart() {
       </h1>
       <div className="max-w-2xl mx-auto pt-10 pb-16 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
         <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-          <CartProduct />
+          {cartArr.map((cartItem) => (
+            <CartProduct cartItem={cartItem} />
+          ))}
         </div>
         <div className="mt-4 lg:mt-0 lg:row-span-3">
           <div className="md:mt-0 md:col-span-2 bg-gray-50 rounded">

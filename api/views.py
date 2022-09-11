@@ -29,13 +29,14 @@ def getCustomerOrders(request):
     return Response(serializer.data)
 
 
-# @api_view(['GET'])
-# def getCart(request):
-#     customer = request.user.customer
-#     order, created = Order.objects.get_or_create(
-#         customer=customer, complete=False)
-#     serializer = ''
-#     return response(serializer.data)
+@api_view(['GET'])
+def getCart(request):
+    customer = request.user.customer
+    order, created = Order.objects.get_or_create(
+        customer=customer, complete=False)
+    orderProducts = OrderProduct.objects.filter(order=order)
+    serializer = CartSerializer(orderProducts, many=True)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])

@@ -71,14 +71,13 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('subcategoryInfo', 'title', 'images',
+        fields = ('id', 'subcategoryInfo', 'title', 'images',
                   'sizes', 'inStock', 'gender', 'description', 'sell_price', 'slug')
         # fields = '__all__'
 
     def getSubCategoryInfo(self, obj):
         subcategory = SubCategory.objects.filter(
             title=obj.subcategory).values('title', 'slug')
-        print(subcategory)
         return subcategory[0]
 
     def getProductImages(self, obj):
@@ -96,7 +95,6 @@ class CategorySubCategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'subcategories', 'categoryImage')
 
     def get_img_url(self, category):
-        print(category.image)
         if category.image:
             request = self.context.get('request')
             return request.build_absolute_uri(category.image.url)
@@ -109,6 +107,24 @@ class CategorySubCategorySerializer(serializers.ModelSerializer):
         # Нужно добавить image_url
 
         return subcategories
+
+
+class CartSerializer(serializers.ModelSerializer):
+    color_title = serializers.SerializerMethodField('getColorTitle')
+    product = serializers.SerializerMethodField('getProduct')
+
+    class Meta:
+        model = OrderProduct
+        fields = ('id', 'order', 'quantity',
+                  'size', 'color_title', 'product',)
+
+    def getColorTitle(self, obj):
+        return obj.color.title
+
+    def getProduct(self, obj):
+        product = Product.objects.filter(title=obj.product, productimage__color=obj.color).values('id', 'title', 'productimage__image', 'productimage__imageAlt',
+                                                                                                  'inStock', 'gender', 'sell_price', 'slug')
+        return product
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -129,7 +145,6 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def myOrderedDateFormat(self, obj):
         formatedDate = obj.ordered_date.strftime("%Y-%m-%d %H:%M:%S")
-        print(formatedDate)
         return formatedDate
 
     def myDeliveredDateFormat(self, obj):
@@ -137,5 +152,4 @@ class OrderSerializer(serializers.ModelSerializer):
             formatedDate = obj.delivered_date.strftime("%Y-%m-%d %H:%M:%S")
         else:
             formatedDate = ''
-        print(formatedDate)
         return formatedDate

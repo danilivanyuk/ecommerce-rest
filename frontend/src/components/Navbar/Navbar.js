@@ -1,20 +1,15 @@
-import React, { useEffect, Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { getCategoriesSubcategories } from "../../actions/categories";
 
 export default function Navbar() {
   const { categoriesArr } = useSelector((store) => store.categories);
   const { subCategoriesArr } = useSelector((store) => store.subcategories);
+  const { cartCounter } = useSelector((store) => store.cart);
 
-  // categoriesArr.map((category) =>
-  //   subCategoriesArr
-  //     .filter((subcategory) => subcategory.category === category.id)
-  //     .map((filteredSubCategory) => console.log(filteredSubCategory))
-  // );
   const [open, setOpen] = useState(false);
 
   function classNames(...classes) {
@@ -455,7 +450,7 @@ export default function Navbar() {
                       />
                     </svg>
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      0
+                      {cartCounter}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>
