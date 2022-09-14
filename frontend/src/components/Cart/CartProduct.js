@@ -3,12 +3,12 @@ import React from "react";
 import { MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
 import { XIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelector } from "react-redux";
-// import { removeProduct } from "../../features/cartSlice.js";
 import {
   removeProduct,
   removeQuantity,
   addQuantity,
 } from "../../features/cartSlice.js";
+
 export default function CartProduct(parentData) {
   const { cartItem } = parentData;
   const dispatch = useDispatch();
@@ -78,7 +78,7 @@ export default function CartProduct(parentData) {
               <button
                 type="button"
                 className="mt-1 w-10 h-10 bg-white p-2 rounded-md flex items-center justify-center text-gray-400"
-                onClick={() => dispatch(removeProduct([cartItem.id]))}
+                onClick={() => dispatch(removeProduct(cartItem.id))}
               >
                 <XIcon className="h-6 w-6" />
               </button>

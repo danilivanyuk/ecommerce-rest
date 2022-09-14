@@ -1,7 +1,9 @@
 from os import error
+from webbrowser import get
 from django.core import files
 from django.http import response
 from django.http.response import HttpResponse
+from django.http import JsonResponse
 
 
 from rest_framework.decorators import api_view, permission_classes
@@ -69,3 +71,18 @@ def getProductsBySubCategory(request, slug):
     serializer = ProductSerializer(
         products, many=True, context={'request': request})
     return Response(serializer.data)
+
+
+# Cart manipulation
+@api_view(['DELETE'])
+def removeProductFromCart(request, pk):
+
+    order = OrderProduct.objects.get(id=pk)
+    order.delete()
+    return JsonResponse('Item deleted', safe=False)
+
+
+@api_view(['POST'])
+def editQuantityOrderProduct(request, pk):
+    orderProduct = OrderProduct.objects.get(id=pk)
+    return JsonResponse('quantity edited')

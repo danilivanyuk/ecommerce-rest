@@ -10,4 +10,9 @@ urlpatterns = [
     path('getProducts/', views.getProducts, name="getProducts"),
     path('getProductsBySubCategory/<str:slug>',
          views.getProductsBySubCategory, name="getProductsBySubcategory"),
+
+    # Cart Manipulations
+    path('removeProductFromCart/<int:pk>/',
+         views.removeProductFromCart, name="removeProductFromCart"),
+
 ]
