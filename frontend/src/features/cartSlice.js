@@ -36,7 +36,7 @@ export const getCart = createAsyncThunk(getCustomerCartUrl, async () => {
 
 // LINKS
 const DELETEITEMFROMCART = "api/removeProductFromCart/";
-const EDITITEMQUANTITY = "api/editQuantityProductFromCart/";
+const EDITITEMQUANTITY = "api/editProductFromCart/";
 
 const updateCartUrl = `api/updateCart/`;
 export const updateCart = createAsyncThunk(updateCartUrl, async () => {
@@ -62,18 +62,21 @@ async function removeProductFromCart(orderProductId) {
   }
 }
 
-async function editQuantity(orderProductId, newQuantity) {
+async function editQuantity(orderProduct) {
   let csrftoken = getCookie("csrftoken");
-  const url = EDITITEMQUANTITY + orderProductId + "/";
+  const url = EDITITEMQUANTITY + orderProduct.id + "/";
+  const orderProductData = {
+    quantity: orderProduct.quantity,
+  };
   const headers = {
     "Content-type": "application/json",
     "X-CSRFToken": csrftoken,
   };
-  try {
-    axios.post(url, newQuantity, { headers });
-  } catch {
-    return thunkAPI.rejectWithValue("Something went wrong with products");
-  }
+  let error = "";
+  axios.post(url, orderProductData, { headers }).catch((e) => {
+    error = e;
+    console.log(error);
+  });
 }
 
 const cartSlice = createSlice({
@@ -84,7 +87,7 @@ const cartSlice = createSlice({
     removeProduct: (state, action) => {
       state.cartArr = state.cartArr.filter((orderProduct) => {
         if (orderProduct.id === action.payload) {
-          removeProductFromCart(orderProduct.id);
+          removeProductFromCart(orderProduct);
         }
         return orderProduct.id !== action.payload;
       });
@@ -94,13 +97,14 @@ const cartSlice = createSlice({
         (cartItem) => cartItem.id === action.payload
       );
       selectedItem.quantity++;
-      editQuantity(selectedItem.id, selectedItem.quantity);
+      editQuantity(selectedItem);
     },
     removeQuantity: (state, action) => {
       let selectedItem = state.cartArr.find(
         (cartItem) => cartItem.id === action.payload
       );
       selectedItem.quantity--;
+      editQuantity(selectedItem);
     },
   },
   extraReducers: {

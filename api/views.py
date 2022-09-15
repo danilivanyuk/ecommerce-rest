@@ -83,6 +83,14 @@ def removeProductFromCart(request, pk):
 
 
 @api_view(['POST'])
-def editQuantityOrderProduct(request, pk):
+def editOrderProduct(request, pk):
     orderProduct = OrderProduct.objects.get(id=pk)
-    return JsonResponse('quantity edited')
+    serializer = OrderProductSerializer(
+        instance=orderProduct, data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        print(serializer.errors)
+
+    return JsonResponse('quantity edited', safe=False)

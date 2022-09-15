@@ -14,5 +14,7 @@ urlpatterns = [
     # Cart Manipulations
     path('removeProductFromCart/<int:pk>/',
          views.removeProductFromCart, name="removeProductFromCart"),
+    path('editProductFromCart/<int:pk>/',
+         views.editOrderProduct, name="editOrderProduct"),
 
 ]

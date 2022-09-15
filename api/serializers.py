@@ -153,3 +153,9 @@ class OrderSerializer(serializers.ModelSerializer):
         else:
             formatedDate = ''
         return formatedDate
+
+
+class OrderProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderProduct
+        fields = ('quantity',)
