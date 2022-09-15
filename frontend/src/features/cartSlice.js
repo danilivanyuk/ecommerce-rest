@@ -21,6 +21,7 @@ const initialState = {
   cartArr: [],
   isLoading: true,
   cartCounter: 0,
+  shippingCost: 5.0,
 };
 
 const getCustomerCartUrl = `api/getCart/`;
