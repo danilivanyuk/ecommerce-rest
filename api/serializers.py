@@ -156,6 +156,11 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class OrderProductSerializer(serializers.ModelSerializer):
+    color_title = serializers.SerializerMethodField('getColorTitle')
+
     class Meta:
         model = OrderProduct
-        fields = ('quantity',)
+        fields = ('product', 'order', 'color_title', 'quantity', 'size')
+
+    def getColorTitle(self, obj):
+        return obj.color.title

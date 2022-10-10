@@ -74,6 +74,14 @@ def getProductsBySubCategory(request, slug):
 
 
 # Cart manipulation
+@api_view(['POST'])
+def addProductToCart(request):
+    customer = request.user.customer
+    order = Order.objects.get(
+        customer=customer, complete=False)
+    return JsonResponse('product added to cart')
+
+
 @api_view(['DELETE'])
 def removeProductFromCart(request, pk):
 

@@ -12,6 +12,7 @@ urlpatterns = [
          views.getProductsBySubCategory, name="getProductsBySubcategory"),
 
     # Cart Manipulations
+    path('addProductToCart/', views.addProductToCart, name="addProductToCart"),
     path('removeProductFromCart/<int:pk>/',
          views.removeProductFromCart, name="removeProductFromCart"),
     path('editProductFromCart/<int:pk>/',

@@ -4,6 +4,7 @@ import { RadioGroup } from "@headlessui/react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { addToCart } from "../../features/cartSlice";
 
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
@@ -16,6 +17,8 @@ export default function Product() {
     (store) => store.products
   );
 
+  const dispatch = useDispatch();
+
   const selectedProduct = useSelector((store) =>
     store.products.productsArr.find(
       (product) => product.slug === URLparams["productSlug"]
@@ -24,6 +27,17 @@ export default function Product() {
 
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
+
+  function addProductToCart(e) {
+    e.preventDefault();
+    dispatch(
+      addToCart({
+        id: selectedProduct.id,
+        color_title: selectedColor,
+        size: selectedSize,
+      })
+    );
+  }
 
   if (isLoading && !isProductsSuccess) {
     return (
@@ -112,7 +126,11 @@ export default function Product() {
               </p>
             </div>
 
-            <form className="mt-10">
+            <form
+              className="mt-10"
+              method="POST"
+              onSubmit={(e) => addProductToCart(e)}
+            >
               {/* Colors */}
               <div>
                 <h3 className="text-sm text-gray-900 font-medium">Colors</h3>
@@ -236,6 +254,7 @@ export default function Product() {
               <button
                 type="submit"
                 className="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                // onClick={(e) => e.preventDefault()}
               >
                 Add to bag
               </button>
